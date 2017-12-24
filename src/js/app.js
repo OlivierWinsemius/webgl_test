@@ -1,79 +1,7 @@
-const { mat4 }  = require('gl-matrix');
-class App {
-    _loadShader(gl, type, source) {
-        const shader = gl.createShader(type);
-        gl.shaderSource(shader, source);
-        gl.compileShader(shader);
+const  { mat4 }  = require('gl-matrix');
+import { initShaderProgram, initBuffers } from './webgl/webgl-loader.js';
 
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            alert('An error occurred compiling the shaders: ' + gl.getShaderInfoLog(shader));
-            gl.deleteShader(shader);
-            return null;
-        }
-        
-        return shader;
-    };
-    
-    _initShaderProgram(gl) {
-        const vShader = this._loadShader(gl, gl.VERTEX_SHADER,   require('../shaders/vertex.glsl'));
-        const fShader = this._loadShader(gl, gl.FRAGMENT_SHADER, require('../shaders/fragment.glsl'));
-        const program    = gl.createProgram();
-
-        gl.attachShader(program, vShader);
-        gl.attachShader(program, fShader);
-        gl.linkProgram(program);
-
-        if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-            alert('Unable to initialize the shader program: ' + gl.getProgramInfoLog(shaderProgram));
-            return null;
-        }
-
-        return program;
-    };
-    
-    _initBuffers(gl) {
-        const positionBuffer = gl.createBuffer();
-        {
-            gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
-
-            const positions = [
-                    1.0,  1.0,
-                    -1.0,  1.0,
-                    1.0, -1.0,
-                    -1.0, -1.0
-                ];
-
-            gl.bufferData(
-                    gl.ARRAY_BUFFER,
-                    new Float32Array(positions),
-                    gl.STATIC_DRAW
-                );
-        }
-        
-        const colorBuffer = gl.createBuffer();
-        {
-            gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
-
-            const colors = [
-                    1.0,  1.0,  1.0,  1.0,
-                    1.0,  0.0,  0.0,  1.0,
-                    0.0,  1.0,  0.0,  1.0,
-                    0.0,  0.0,  1.0,  1.0,
-                ];
-
-            gl.bufferData(
-                    gl.ARRAY_BUFFER,
-                    new Float32Array(colors),
-                    gl.STATIC_DRAW
-                );
-        }
-
-        return {
-            position: positionBuffer,
-            color:    colorBuffer
-        };
-    };
-    
+class App { 
     _getModelViewMatrix() {
         const matrix   = mat4.create();
 
@@ -209,8 +137,8 @@ class App {
     constructor() {
         const canvas     = document.getElementById('canvas');
         this.gl          = canvas.getContext('webgl');
-        this.buffers     = this._initBuffers(this.gl);
-        const program    = this._initShaderProgram(this.gl);
+        this.buffers     = initBuffers(this.gl);
+        const program    = initShaderProgram(this.gl);
         this.programInfo = {
                 program,
                 attribLocations: {
