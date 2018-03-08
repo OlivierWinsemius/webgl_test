@@ -4,7 +4,7 @@ const HtmlWebpackPlugin  = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        app: path.resolve(__dirname, 'src', 'js', 'app.js')
+        index: path.resolve(__dirname, 'src', 'js', 'index.js')
     },
 
     output: {
@@ -20,7 +20,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        plugins: ['syntax-dynamic-import'],
+                        plugins: ['dynamic-import-webpack'],
                         presets: ['env']
                     }
                 }
