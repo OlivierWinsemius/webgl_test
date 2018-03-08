@@ -15,7 +15,7 @@ function loadShader(gl, type, source) {
 export function initShaderProgram(gl) {
     const vShader = loadShader(gl, gl.VERTEX_SHADER,   require('./../../shaders/vertex.glsl'));
     const fShader = loadShader(gl, gl.FRAGMENT_SHADER, require('./../../shaders/fragment.glsl'));
-    const program    = gl.createProgram();
+    const program = gl.createProgram();
 
     gl.attachShader(program, vShader);
     gl.attachShader(program, fShader);
@@ -26,8 +26,8 @@ export function initShaderProgram(gl) {
         return null;
     }
 
-    return program;
-}
+    this.program = program;
+};
 
 export function initBuffers(gl) {
     const positionBuffer = gl.createBuffer();
@@ -66,8 +66,8 @@ export function initBuffers(gl) {
             );
     }
 
-    return {
-        position: positionBuffer,
-        color:    colorBuffer
-    };
-}
+    this.buffers = {
+            position: positionBuffer,
+            color:    colorBuffer
+        };
+};
