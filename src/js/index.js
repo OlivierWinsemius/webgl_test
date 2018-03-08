@@ -1,27 +1,21 @@
-const start = () => {
+(function() {
     Promise.all([
-        import('gl-matrix'),
-        import('./webgl/webgl-loader.js'),
-        import('./App.js')
-    ])
+            import('gl-matrix'),
+            import('./webgl/webgl-loader.js'),
+            import('./App.js')
+        ])
     .then(([
-        glMatrix,
-        webGlLoader,
-        App
-    ]) => {
-        console.log(App);
-        const { mat4 } = glMatrix;
-        const { getShaderProgram, getBuffers } = webGlLoader;        
-        const canvas  = document.getElementById('canvas');
-        const gl      = canvas.getContext('webgl');
-        const program = getShaderProgram(gl);
-        const buffers = getBuffers(gl);
-        
-        new App(gl, program, buffers, mat4);
-    });
-};
-
-document.addEventListener('DOMContentLoaded', start);
+            { mat4 },
+            { getShaderProgram, getBuffers },
+            App
+        ]) => {
+            const canvas  = document.getElementById('canvas');
+            const gl      = canvas.getContext('webgl');
+            const program = getShaderProgram(gl);
+            const buffers = getBuffers(gl);
+            new App(gl, program, buffers, mat4);
+        });
+})();
 
 if(module.hot) {
     module.hot.accept();
