@@ -1,4 +1,4 @@
 module.exports = (gl, program) => ({
-        vertexColor:    gl.getAttribLocation(program, 'aVertexColor'),
-        vertexPosition: gl.getAttribLocation(program, 'aVertexPosition')
+        color:    gl.getAttribLocation(program, 'aVertexColor'),
+        position: gl.getAttribLocation(program, 'aVertexPosition')
 })
