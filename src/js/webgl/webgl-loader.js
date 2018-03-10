@@ -1,4 +1,4 @@
-function loadShader(gl, type, source) {
+export function createShader(gl, type, source) {
     const shader = gl.createShader(type);
     gl.shaderSource(shader, source);
     gl.compileShader(shader);
@@ -12,13 +12,10 @@ function loadShader(gl, type, source) {
     return shader;
 };
 
-export function getShaderProgram(gl) {
-    const vShader = loadShader(gl, gl.VERTEX_SHADER,   require('./../../shaders/vertex.glsl'));
-    const fShader = loadShader(gl, gl.FRAGMENT_SHADER, require('./../../shaders/fragment.glsl'));
+export function createProgram(gl, vertexShader, fragmentSader) {
     const program = gl.createProgram();
-
-    gl.attachShader(program, vShader);
-    gl.attachShader(program, fShader);
+    gl.attachShader(program, vertexShader);
+    gl.attachShader(program, fragmentSader);
     gl.linkProgram(program);
 
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
@@ -29,7 +26,7 @@ export function getShaderProgram(gl) {
     return program;
 };
 
-export function getBuffers(gl) {
+export function createBuffers(gl) {
     const positionBuffer = gl.createBuffer();
     {
         gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
