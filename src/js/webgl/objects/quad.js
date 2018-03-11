@@ -1,13 +1,13 @@
 import RenderObject from './object';
 
 module.exports = class Quad extends RenderObject {
-    constructor(x = 0, y = 0, width = 1, height = 1) {
+    constructor(x = 0, y = 0, width = 0.1, height = 0.1) {
         super();
 
-        this.x      = x;
-        this.y      = y;
-        this.width  = width;
-        this.height = height;
+        this.x      = x * 2 - 1;
+        this.y      = y * 2 - 1;
+        this.width  = width * 2;
+        this.height = height * 2;
         this.color  = [0.0, 0.0, 0.0, 1.0];
 
         this._setVertexPositionData();
@@ -42,14 +42,18 @@ module.exports = class Quad extends RenderObject {
     };
 
     setPosition(x, y) {
-        this.x = x;
-        this.y = y;
+        this.x = x * 2 - 1;
+        this.y = y * 2 - 1;
         this._setVertexData();
     };
 
     setSize(width, height) {
-        this.width  = width;
-        this.height = height;
+        this.width  = width * 2;
+        this.height = height * 2;
         this._setVertexData();
     };
+
+    draw() {
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
 }

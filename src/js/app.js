@@ -1,26 +1,24 @@
 module.exports = class App {
-    constructor(programInfo) {
-        this.programInfo = programInfo;
-        this._update     = this._update.bind(this);
-        this._draw       = this._draw.bind(this);
-        this._onResize   = this._onResize.bind(this);
-        window.requestAnimationFrame(this._update);
+    constructor() {
+        this.quad = new Quad();//0.1, 0.01, 0.85, 0.9);
+        this.quad.setColor(1, 0, 0);
+        this.update();
     };
 
-    _draw() {
+    update() {
+        this.onResize();
+        this.draw();
+        window.requestAnimationFrame(this.update.bind(this));
+    };
+
+    draw() {
         const offset      = 0;
-        const vertexCount = 4;
+        const vertexCount = 3;
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
+        this.quad.draw();
     };
     
-    _update(now) {
-        this._onResize();
-        this._draw();
-        window.requestAnimationFrame(this._update);
-    };
-    
-    _onResize() {
+    onResize() {
         const width  = gl.canvas.clientWidth;
         const height = gl.canvas.clientHeight;
         if (gl.canvas.width != width || gl.canvas.height != height) {
