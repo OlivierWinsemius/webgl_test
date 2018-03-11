@@ -1,6 +1,5 @@
 module.exports = class App {
-    constructor(gl, programInfo) {
-        this.gl          = gl;
+    constructor(programInfo) {
         this.programInfo = programInfo;
         this._update     = this._update.bind(this);
         this._draw       = this._draw.bind(this);
@@ -9,10 +8,8 @@ module.exports = class App {
     };
 
     _draw() {
-        const gl          = this.gl;
         const offset      = 0;
         const vertexCount = 4;
-        
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         gl.drawArrays(gl.TRIANGLE_STRIP, offset, vertexCount);
     };
@@ -24,7 +21,6 @@ module.exports = class App {
     };
     
     _onResize() {
-        const gl     = this.gl;
         const width  = gl.canvas.clientWidth;
         const height = gl.canvas.clientHeight;
         if (gl.canvas.width != width || gl.canvas.height != height) {
