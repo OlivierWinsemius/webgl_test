@@ -1,8 +1,9 @@
 export default class RenderObject {
     constructor() {
-        const defaultShader = programInfo.shaders.uniform;
+        const defaultShader = shaders.solid;
         this.positionData   = gl.createBuffer();
         this.colorData      = gl.createBuffer();
+        this.shaderProgram  = defaultShader.program;
 
         gl.enableVertexAttribArray(defaultShader.attributes.position);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.positionData);

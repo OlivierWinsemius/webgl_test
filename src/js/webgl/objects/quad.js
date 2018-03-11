@@ -54,6 +54,7 @@ module.exports = class Quad extends RenderObject {
     };
 
     draw() {
+        gl.useProgram(this.shaderProgram);
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
 }
