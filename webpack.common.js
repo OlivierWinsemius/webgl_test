@@ -1,4 +1,5 @@
 const path               = require('path');
+const webpack            = require('webpack');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin  = require('html-webpack-plugin');
 
@@ -12,6 +13,12 @@ module.exports = {
         chunkFilename: '[name].[hash].bundle.js'
     },
 
+    resolve: {
+        alias: {
+            shaders: path.resolve(__dirname, 'src', 'shaders')
+        }
+    },
+    
     module: {
         rules: [
             {
@@ -32,7 +39,7 @@ module.exports = {
             }
         ]
     },
-
+    
     plugins: [
         new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({

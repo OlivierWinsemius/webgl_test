@@ -1,6 +1,6 @@
 module.exports = function(createProgram, createShader) {
-    const vertexShader   = createShader(gl, gl.VERTEX_SHADER, require('../../../../shaders/vertex.glsl'));
-    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, require('../../../../shaders/fragment.glsl'));
+    const vertexShader   = createShader(gl, gl.VERTEX_SHADER, require('shaders/solid/vertex.glsl'));
+    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, require('shaders/solid/fragment.glsl'));
     const program  = createProgram(gl, vertexShader, fragmentShader);
     const uniforms = {
             projectionMatrix: gl.getUniformLocation(program, 'uProjectionMatrix'),
