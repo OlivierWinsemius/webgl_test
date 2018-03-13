@@ -25,31 +25,29 @@ export default class Rect extends RenderObject {
     }
 
     _setVertexColorData(r, g, b, a) {
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.colorData)
-        const c = this.color
-        const vertexColors = [...c, ...c, ...c, ...c]
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexColors), gl.STATIC_DRAW)
+        gl.useProgram(this.shader.program)
+        gl.uniform4fv(this.shader.uniforms.color, this.colorData)
     }
 
     setColor(r, g, b, a = 1) { 
-        this.color = [r, g, b, a]
+        this.colorData = [r, g, b, a]
         this._setVertexColorData()
     }
 
     setPosition(x, y) {
         this.x = x * 2 - 1
         this.y = y * 2 - 1
-        this._setVertexData()
+        this._setVertexPositionData()
     }
 
     setSize(width, height) {
         this.width  = width * 2
         this.height = height * 2
-        this._setVertexData()
+        this._setVertexPositionData()
     }
 
     draw() {
-        gl.useProgram(this.shaderProgram)
+        gl.useProgram(this.shader.program)
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
     }
 }

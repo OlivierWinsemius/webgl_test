@@ -1,22 +1,28 @@
 export default class App {
     constructor() {
-        this.rect = new Rect(0.1, 0.01, 0.85, 0.9)
-        this.rect.setColor(0.5, 1, 0.2)
-        this.update = this.update.bind(this);
+        this.update      = this.update.bind(this)
+        this.onMouseMove = this.onMouseMove.bind(this)
+        document.addEventListener('mousemove', this.onMouseMove)
+        this.rect = new Rect(0, 0, 0.5, 0.5)
+        this.rect.setColor(0.5, 0.1, 0.2)
         this.update();
     }
 
     update() {
         this.onResize()
         this.draw()
+        this.rect.setSize(this.mouseX, this.mouseY)
         requestAnimationFrame(this.update)
     }
 
     draw() {
-        const offset      = 0
-        const vertexCount = 3
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
         this.rect.draw()
+    }
+
+    onMouseMove(event) {
+        this.mouseX = event.clientX / gl.canvas.clientWidth
+        this.mouseY = event.clientY / gl.canvas.clientHeight
     }
     
     onResize() {
