@@ -2,13 +2,14 @@ export default class App {
     constructor() {
         this.rect = new Rect(0.1, 0.01, 0.85, 0.9)
         this.rect.setColor(0.5, 1, 0.2)
-        this.update()
+        this.update = this.update.bind(this);
+        this.update();
     }
 
     update() {
         this.onResize()
         this.draw()
-        window.requestAnimationFrame(this.update.bind(this))
+        requestAnimationFrame(this.update)
     }
 
     draw() {

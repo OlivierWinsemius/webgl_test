@@ -1,7 +1,6 @@
-const path               = require('path');
-const webpack            = require('webpack');
-const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin  = require('html-webpack-plugin');
+const path              = require('path');
+const webpack           = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
@@ -10,7 +9,7 @@ module.exports = {
 
     output: {
         filename:      '[name].[hash].bundle.js',
-        chunkFilename: '[name].[hash].bundle.js'
+        chunkFilename: '[id].[chunkhash].chunk.js'
     },
 
     resolve: {
@@ -41,7 +40,6 @@ module.exports = {
     },
     
     plugins: [
-        new CleanWebpackPlugin(),
         new HtmlWebpackPlugin({
             template: path.resolve(__dirname, 'src', 'index.html')
         })
