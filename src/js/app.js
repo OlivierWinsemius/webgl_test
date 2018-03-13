@@ -3,7 +3,10 @@ export default class App {
         this.update      = this.update.bind(this)
         this.onMouseMove = this.onMouseMove.bind(this)
         document.addEventListener('mousemove', this.onMouseMove)
-        this.rect = new Rect(0, 0, 0.5, 0.5)
+
+        this.mouseX = 0;
+        this.mouseY = 0;
+        this.rect = new Rect(0, 0, 1, 0.5)
         this.rect.setColor(0.5, 0.1, 0.2)
         this.update();
     }
@@ -11,7 +14,6 @@ export default class App {
     update() {
         this.onResize()
         this.draw()
-        this.rect.setSize(this.mouseX, this.mouseY)
         requestAnimationFrame(this.update)
     }
 
@@ -23,6 +25,7 @@ export default class App {
     onMouseMove(event) {
         this.mouseX = event.clientX / gl.canvas.clientWidth
         this.mouseY = event.clientY / gl.canvas.clientHeight
+        this.rect.setSize(this.mouseX, this.mouseY)
     }
     
     onResize() {

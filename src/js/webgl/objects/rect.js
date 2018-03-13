@@ -9,11 +9,11 @@ export default class Rect extends RenderObject {
         this.width  = width * 2
         this.height = height * 2
 
-        this._setVertexPositionData()
-        this._setVertexColorData()
+        this.setVertexPositionData()
+        this.setVertexPositionData()
     }
     
-    _setVertexPositionData() {
+    setVertexPositionData() {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.positionData)
         const positions = [
                 this.x + this.width, -this.y - this.height,
@@ -24,26 +24,26 @@ export default class Rect extends RenderObject {
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
     }
 
-    _setVertexColorData(r, g, b, a) {
+    setVertexColorData(r, g, b, a) {
         gl.useProgram(this.shader.program)
         gl.uniform4fv(this.shader.uniforms.color, this.colorData)
     }
 
     setColor(r, g, b, a = 1) { 
         this.colorData = [r, g, b, a]
-        this._setVertexColorData()
+        this.setVertexColorData()
     }
 
     setPosition(x, y) {
         this.x = x * 2 - 1
         this.y = y * 2 - 1
-        this._setVertexPositionData()
+        this.setVertexPositionData()
     }
 
     setSize(width, height) {
         this.width  = width * 2
         this.height = height * 2
-        this._setVertexPositionData()
+        this.setVertexPositionData()
     }
 
     draw() {
