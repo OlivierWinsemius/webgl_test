@@ -1,5 +1,4 @@
-const Quad = require('./objects/quad.js')
-
-module.exports = {
-    Quad
+import Rect from './objects/rect.js'
+export {
+    Rect
 }

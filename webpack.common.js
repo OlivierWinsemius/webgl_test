@@ -27,7 +27,7 @@ module.exports = {
                 use: {
                     loader: 'babel-loader',
                     options: {
-                        plugins: ['dynamic-import-webpack'],
+                        plugins: ['syntax-dynamic-import'],
                         presets: ['env']
                     }
                 }

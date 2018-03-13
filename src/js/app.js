@@ -1,7 +1,7 @@
-module.exports = class App {
+export default class App {
     constructor() {
-        this.quad = new Quad(0.1, 0.01, 0.85, 0.9)
-        this.quad.setColor(1, 1, 0)
+        this.rect = new Rect(0.1, 0.01, 0.85, 0.9)
+        this.rect.setColor(0.5, 1, 0.2)
         this.update()
     }
 
@@ -15,7 +15,7 @@ module.exports = class App {
         const offset      = 0
         const vertexCount = 3
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-        this.quad.draw()
+        this.rect.draw()
     }
     
     onResize() {

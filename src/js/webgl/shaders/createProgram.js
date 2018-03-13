@@ -1,4 +1,4 @@
-module.exports = function createProgram(gl, vertexShader, fragmentSader) {
+export default function createProgram(gl, vertexShader, fragmentSader) {
     const program = gl.createProgram()
     gl.attachShader(program, vertexShader)
     gl.attachShader(program, fragmentSader)

@@ -1,6 +1,6 @@
 import RenderObject from './object'
 
-module.exports = class Quad extends RenderObject {
+export default class Rect extends RenderObject {
     constructor(x = 0, y = 0, width = 0.1, height = 0.1) {
         super()
 
@@ -8,7 +8,6 @@ module.exports = class Quad extends RenderObject {
         this.y      = y * 2 - 1
         this.width  = width * 2
         this.height = height * 2
-        this.color  = [0.0, 0.0, 0.0, 1.0]
 
         this._setVertexPositionData()
         this._setVertexColorData()
@@ -27,13 +26,9 @@ module.exports = class Quad extends RenderObject {
 
     _setVertexColorData(r, g, b, a) {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.colorData)
-        let colors = []
-        for(let i = 0; i < 4; i++) {
-            for(const c of this.color) {
-                colors = colors.concat(c)
-            }
-        }
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW)
+        const c = this.color
+        const vertexColors = [...c, ...c, ...c, ...c]
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexColors), gl.STATIC_DRAW)
     }
 
     setColor(r, g, b, a = 1) { 

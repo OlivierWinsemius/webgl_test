@@ -1,10 +1,9 @@
-const createShader  = require('./shaders/createShader')
-const createProgram = require('./shaders/createProgram')
+import createShader  from './shaders/createShader'
+import createProgram from './shaders/createProgram'
+import solidShader from './shaders/solidShader/shader'
 
-module.exports = function getShaders() {
-        const solidShader = require('./shaders/solidShader/shader')(createProgram, createShader)
-
-        return {
-            solid: solidShader
-        }
+export default function() {
+    return {
+        solid: solidShader(createProgram, createShader)
     }
+}

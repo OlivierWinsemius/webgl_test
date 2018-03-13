@@ -1,6 +1,7 @@
 export default class RenderObject {
     constructor() {
         const defaultShader = shaders.solid
+        this.color          = [0.0, 0.0, 0.0, 1.0]
         this.positionData   = gl.createBuffer()
         this.colorData      = gl.createBuffer()
         this.shaderProgram  = defaultShader.program
