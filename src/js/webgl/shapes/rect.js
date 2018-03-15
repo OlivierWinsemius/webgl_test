@@ -1,4 +1,4 @@
-import RenderObject from './object'
+import RenderObject from './shape'
 
 export default class Rect extends RenderObject {
     constructor(x = 0, y = 0, width = 0.1, height = 0.1) {
@@ -10,11 +10,11 @@ export default class Rect extends RenderObject {
         this.height = height * 2
 
         this.setVertexPositionData()
-        this.setVertexPositionData()
+        this.setVertexColorData()
     }
     
     setVertexPositionData() {
-        gl.bindBuffer(gl.ARRAY_BUFFER, this.positionData)
+        this.bindBufferAttribs()
         const positions = [
                 this.x + this.width, -this.y - this.height,
                 this.x,              -this.y - this.height,
@@ -47,7 +47,7 @@ export default class Rect extends RenderObject {
     }
 
     draw() {
-        gl.useProgram(this.shader.program)
+        this.bindBufferAttribs()
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4)
     }
 }
