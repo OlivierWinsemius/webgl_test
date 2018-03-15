@@ -10,8 +10,8 @@ export default class App {
         this.rect = new shapes.Rect(0, 0, 1, 0.5)
         this.rect.setColor(1, 1, 1)
 
-        this.ellipse = new shapes.Ellipse(0.5, 0.5, 0.2, 0.2)
-        this.ellipse.setColor(1, 1, 1)
+        this.ellipse = new shapes.Ellipse(0.5, 0.5, 1, 1)
+        this.ellipse.setColor(1, 0, 1)
         
         this.update()
     }

@@ -25,7 +25,6 @@ export default class Rect extends RenderObject {
     }
 
     setVertexColorData(r, g, b, a) {
-        gl.useProgram(this.shader.program)
         gl.uniform4fv(this.shader.uniforms.color, this.colorData)
     }
 
