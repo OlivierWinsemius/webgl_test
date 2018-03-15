@@ -6,8 +6,13 @@ export default class App {
 
         this.mouseX = 0
         this.mouseY = 0
-        this.rect = new Rect(0, 0, 1, 0.5)
+
+        this.rect = new shapes.Rect(0, 0, 1, 0.5)
         this.rect.setColor(1, 1, 1)
+
+        this.ellipse = new shapes.Ellipse(0.5, 0.5, 0.2, 0.2)
+        this.ellipse.setColor(1, 1, 1)
+        
         this.update()
     }
 
@@ -20,6 +25,7 @@ export default class App {
     draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
         this.rect.draw()
+        this.ellipse.draw()
     }
 
     onMouseMove(event) {
