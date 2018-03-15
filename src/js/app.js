@@ -24,8 +24,8 @@ export default class App {
 
     draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
-        this.rect.draw()
         this.ellipse.draw()
+        this.rect.draw()
     }
 
     onMouseMove(event) {

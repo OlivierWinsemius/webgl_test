@@ -16,17 +16,12 @@ export default class Ellipse extends Shape {
     
     setVertexPositionData() {
         this.bindBufferAttribs()
-        let positions = []
-        for(let i=0; i<=this.numVertices; i++) {
+        let positions = new Array(this.numVertices)
+        for(let i=0; i<this.numVertices; i++) {
             const j = i / this.numVertices * (Math.PI * 2)
-            positions = positions.concat([
-                Math.sin(j) * this.height,
-                Math.cos(j) * this.width,
-                0,
-                0
-            ])
+            positions[i * 2 + 0] = Math.sin(j) * this.height
+            positions[i * 2 + 1] = Math.cos(j) * this.width
         }
-        
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
     }
 
@@ -51,8 +46,13 @@ export default class Ellipse extends Shape {
         this.setVertexPositionData()
     }
 
+    setResolution(numVertices) {
+        this.numVertices = numVertices
+        this.setVertexPositionData()
+    }
+
     draw() {
         this.bindBufferAttribs()
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, this.numVertices * 2 + 2)
+        gl.drawArrays(gl.TRIANGLE_FAN, 0, this.numVertices)
     }
 }
