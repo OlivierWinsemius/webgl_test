@@ -19,8 +19,8 @@ export default class Ellipse extends Shape {
         let positions = new Array(this.numVertices)
         for(let i=0; i<this.numVertices; i++) {
             const j = i / this.numVertices * (Math.PI * 2)
-            positions[i * 2 + 0] = Math.sin(j) * this.height
-            positions[i * 2 + 1] = Math.cos(j) * this.width
+            positions[i * 2 + 0] = this.x + Math.sin(j) * this.height
+            positions[i * 2 + 1] = -this.y + Math.cos(j) * this.width
         }
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
     }
