@@ -31,7 +31,6 @@ export default class App {
     onMouseMove(event) {
         this.mouseX = event.clientX / gl.canvas.clientWidth
         this.mouseY = event.clientY / gl.canvas.clientHeight
-        this.rect.setSize(this.mouseX, this.mouseY)
     }
     
     onResize() {
