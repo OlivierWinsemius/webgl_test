@@ -1,16 +1,14 @@
-import RenderObject from './shape';
+import Shape from './shape';
 
-export default class Rect extends RenderObject {
+export default class Rect extends Shape {
     constructor(x = 0, y = 0, width = 0.1, height = 0.1) {
         super();
-
         this.x = (x * 2) - 1;
         this.y = (y * 2) - 1;
         this.width = width * 2;
         this.height = height * 2;
-
         this.setVertexPositionData();
-        this.setVertexColorData();
+        return this;
     }
 
     setVertexPositionData() {
@@ -31,18 +29,21 @@ export default class Rect extends RenderObject {
     setColor(r, g, b, a = 1) {
         this.colorData = [r, g, b, a];
         this.setVertexColorData();
+        return this;
     }
 
     setPosition(x, y) {
         this.x = (x * 2) - 1;
         this.y = (y * 2) - 1;
         this.setVertexPositionData();
+        return this;
     }
 
     setSize(width, height) {
         this.width = width * 2;
         this.height = height * 2;
         this.setVertexPositionData();
+        return this;
     }
 
     draw() {

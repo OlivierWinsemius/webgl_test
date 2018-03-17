@@ -8,9 +8,8 @@ export default class Ellipse extends Shape {
         this.y = (y * 2) - 1;
         this.width = width;
         this.height = height;
-
         this.setVertexPositionData();
-        this.setVertexColorData();
+        return this;
     }
 
 
@@ -32,23 +31,27 @@ export default class Ellipse extends Shape {
     setColor(r, g, b, a = 1) {
         this.colorData = [r, g, b, a];
         this.setVertexColorData();
+        return this;
     }
 
     setPosition(x, y) {
         this.x = (x * 2) - 1;
         this.y = (y * 2) - 1;
         this.setVertexPositionData();
+        return this;
     }
 
     setSize(width, height) {
         this.width = width * 2;
         this.height = height * 2;
         this.setVertexPositionData();
+        return this;
     }
 
     setResolution(numVertices) {
         this.numVertices = numVertices;
         this.setVertexPositionData();
+        return this;
     }
 
     draw() {

@@ -1,8 +1,8 @@
-export default class RenderObject {
+export default class Shape {
     constructor() {
         this.shader = shaders.solid;
         this.positionData = gl.createBuffer();
-        this.colorData = [0, 0, 0, 1];
+        this.colorData = Shape.defaultColor;
         gl.useProgram(this.shader.program);
     }
 
