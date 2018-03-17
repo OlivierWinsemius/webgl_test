@@ -21,7 +21,7 @@
             gl.clearDepth(1.0);
             gl.enable(gl.DEPTH_TEST);
             gl.depthFunc(gl.LEQUAL);
-            App();
+            (() => new App())();
         });
 }());
 
