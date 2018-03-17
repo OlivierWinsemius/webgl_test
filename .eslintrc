@@ -6,8 +6,12 @@
         "no-bitwise": 0
     },
     "env": {
-        "browser": true
+        "browser": true,
+        "jest": true
     },
+    "plugins": [
+        "jest"
+    ],
     "globals": {
         "gl": true,
         "shapes": true,
