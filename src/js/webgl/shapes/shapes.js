@@ -1,6 +1,6 @@
-import Shape from './shapes/shape';
-import Rect from './shapes/rect';
-import Ellipse from './shapes/ellipse';
+import Shape from './basicShape';
+import Rect from './rect';
+import Ellipse from './ellipse';
 
 Shape.defaultColor = [1, 1, 1, 1];
 

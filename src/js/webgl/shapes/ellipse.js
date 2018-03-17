@@ -1,4 +1,4 @@
-import Shape from './shape';
+import Shape from './basicShape';
 
 export default class Ellipse extends Shape {
     constructor(x = 0, y = 0, width = 0.1, height = 0.1) {

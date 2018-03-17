@@ -20,8 +20,8 @@ const loaded = ([
 
 export default function start(callback) {
     return Promise.all([
-        import('./webgl/shaders.js'),
-        import('./webgl/shapes.js'),
+        import('./webgl/shaders/shaders.js'),
+        import('./webgl/shapes/shapes.js'),
         import('./App.js'),
         import('gl-matrix'),
     ]).then(callback);
