@@ -10,6 +10,7 @@ export default function (createProgram, createShader) {
     };
     const uniforms = {
         color: gl.getUniformLocation(program, 'uColor'),
+        texture: gl.getUniformLocation(program, 'uTexture'),
         projectionMatrix: gl.getUniformLocation(program, 'uProjectionMatrix'),
         modelViewMatrix: gl.getUniformLocation(program, 'uModelViewMatrix'),
     };

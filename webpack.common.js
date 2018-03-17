@@ -12,6 +12,12 @@ module.exports = {
         chunkFilename: '[id].[chunkhash].chunk.js',
     },
 
+    resolve: {
+        alias: {
+            images: path.resolve(__dirname, 'src', 'images'),
+        },
+    },
+
     module: {
         rules: [
             {
@@ -25,6 +31,16 @@ module.exports = {
                 test: /\.glsl$/,
                 exclude: /(node_modules|bower_components)/,
                 loader: 'webpack-glsl-loader',
+            },
+            {
+                test: /\.(png|jp(e*)g|svg)$/,
+                use: [{
+                    loader: 'url-loader',
+                    options: {
+                        limit: 8000, // Convert images < 8kb to base64 strings
+                        name: 'images/[hash]-[name].[ext]',
+                    },
+                }],
             },
         ],
     },

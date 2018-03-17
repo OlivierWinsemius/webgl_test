@@ -1,6 +1,8 @@
 const loaded = ([
     { default: getShaders },
     { default: shapes },
+    { default: textureFiles },
+    { default: getTextures },
     { default: App },
     { mat4 },
 ]) => {
@@ -9,7 +11,7 @@ const loaded = ([
     global.shapes = shapes;
     global.mat4 = mat4;
     global.shaders = getShaders();
-
+    global.textures = getTextures(textureFiles);
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clearDepth(1.0);
     gl.enable(gl.DEPTH_TEST);
@@ -22,6 +24,8 @@ export default function start(callback) {
     return Promise.all([
         import('./webgl/shaders/shaders.js'),
         import('./webgl/shapes/shapes.js'),
+        import('../images/textureFiles.js'),
+        import('./webgl/textures/textures.js'),
         import('./App.js'),
         import('gl-matrix'),
     ]).then(callback);
