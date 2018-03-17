@@ -1,9 +1,9 @@
-import createShader  from './shaders/createShader'
-import createProgram from './shaders/createProgram'
-import solidShader from './shaders/solidShader/shader'
+import createShader from './shaders/createShader';
+import createProgram from './shaders/createProgram';
+import solidShader from './shaders/solidShader/shader';
 
-export default function() {
+export default function () {
     return {
-        solid: solidShader(createProgram, createShader)
-    }
+        solid: solidShader(createProgram, createShader),
+    };
 }
