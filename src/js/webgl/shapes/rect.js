@@ -7,24 +7,15 @@ export default class Rect extends Shape {
         this.y = (y * 2) - 1;
         this.width = width * 2;
         this.height = height * 2;
+
+        this.textureCoordinates = [
+            1.0, 1.0,
+            1.0, 0.0,
+            0.0, 1.0,
+            0.0, 0.0,
+        ];
+
         this.setVertexPositionData();
-        return this;
-    }
-
-    setTexture(texture) {
-        gl.activeTexture(gl.TEXTURE);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        this.samplerUniformData = 0;
-
-        if (this.setUniform('sampler')) {
-            const textureCoordinates = [
-                1.0, 1.0,
-                1.0, 0.0,
-                0.0, 1.0,
-                0.0, 0.0,
-            ];
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), gl.STATIC_DRAW);
-        }
         return this;
     }
 

@@ -21,11 +21,17 @@ export default class App {
 
         this.rect = new shapes.Rect(0, 0, 1, 0.5)
             .setShader(shaders.texture)
-            .setTexture(textures.noise);
+            .setTexture(textures.noise, 'sampler')
+            .setTextureCoordinates([
+                1.0, 1.0,
+                1.0, 0.0,
+                0.0, 1.0,
+                0.0, 0.0,
+            ]);
 
         this.ellipse = new shapes.Ellipse(0.8, 0.7, 0.6, 0.4)
             .setShader(shaders.texture)
-            .setTexture(textures.noise);
+            .setTexture(textures.noise, 'sampler');
 
         this.update();
     }
@@ -49,6 +55,6 @@ export default class App {
     }
 
     onMouseClick() {
-        this.rect.setShader(shaders.solid).setColor(1, 0, 0);
+        this.rect.setShader(shaders.solid).setColor(this.mouseX, this.mouseY, 0);
     }
 }

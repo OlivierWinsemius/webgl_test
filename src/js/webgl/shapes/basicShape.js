@@ -2,6 +2,7 @@ export default class Shape {
     constructor() {
         this.shader = shaders.solid;
         this.colorUniformData = Shape.defaultColor;
+        this.textureUniformData = 0;
         this.bindBuffers();
     }
 
@@ -38,7 +39,9 @@ export default class Shape {
                 gl.uniform4fv(uniform, this[uniformKey]);
                 break;
             case 'sampler':
-                gl.uniform1i(uniform, this[uniformKey]);
+                for (let i = 0; i < this[uniformKey]; i += 1) {
+                    gl.uniform1i(uniform, i);
+                }
                 break;
             default:
                 return false;
@@ -63,6 +66,39 @@ export default class Shape {
         this.shader = shader;
         gl.useProgram(this.shader.program);
         this.bindBuffers();
+        return this;
+    }
+
+    setTexture(texture, uniform) {
+        gl.activeTexture(gl[`TEXTURE${this.textureUniformData}`]);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        this.textureUniformData += 1;
+
+        if (this.setUniform(uniform)) {
+            gl.bufferData(
+                gl.ARRAY_BUFFER,
+                new Float32Array(this.textureCoordinates),
+                gl.STATIC_DRAW,
+            );
+        }
+        return this;
+    }
+
+    setTextures(textures) {
+        for (let i = 0; i < textures.length; i += 1) {
+            this.setTexture(textures[i].texture, textures[i].key);
+        }
+    }
+
+    setTextureCoordinates(coordinates) {
+        this.textureCoordinates = coordinates;
+        if (this.bindAttrib('textureCoord')) {
+            gl.bufferData(
+                gl.ARRAY_BUFFER,
+                new Float32Array(this.textureCoordinates),
+                gl.STATIC_DRAW,
+            );
+        }
         return this;
     }
 

@@ -8,24 +8,15 @@ export default class Ellipse extends Shape {
         this.y = (y * 2) - 1;
         this.width = width;
         this.height = height;
-        this.setVertexPositionData();
-        return this;
-    }
 
-    setTexture(texture) {
-        gl.activeTexture(gl.TEXTURE);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        this.samplerUniformData = 0;
-
-        if (this.setUniform('sampler')) {
-            const textureCoordinates = new Array(this.numVertices);
-            for (let i = 0; i < this.numVertices; i += 1) {
-                const j = (i / this.numVertices) * (Math.PI * 2);
-                textureCoordinates[(i * 2) + 0] = 0.5 + (Math.sin(j) / 2);
-                textureCoordinates[(i * 2) + 1] = 0.5 - (Math.cos(j) / 2);
-            }
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), gl.STATIC_DRAW);
+        this.textureCoordinates = new Array(this.numVertices);
+        for (let i = 0; i < this.numVertices; i += 1) {
+            const j = (i / this.numVertices) * (Math.PI * 2);
+            this.textureCoordinates[(i * 2) + 0] = 0.5 + (Math.sin(j) / 2);
+            this.textureCoordinates[(i * 2) + 1] = 0.5 - (Math.cos(j) / 2);
         }
+
+        this.setVertexPositionData();
         return this;
     }
 

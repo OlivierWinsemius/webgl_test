@@ -3,7 +3,8 @@
     "extends": "airbnb-base",
     "rules": {
         "indent": ["error", 4],
-        "no-bitwise": 0
+        "no-bitwise": 0,
+        "no-alert": 0
     },
     "env": {
         "browser": true,
