@@ -12,7 +12,9 @@ export default class App {
     constructor() {
         this.update = this.update.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
+        this.onMouseClick = this.onMouseClick.bind(this);
         document.addEventListener('mousemove', this.onMouseMove);
+        document.addEventListener('click', this.onMouseClick);
 
         this.mouseX = 0;
         this.mouseY = 0;
@@ -44,5 +46,9 @@ export default class App {
         this.mouseX = event.clientX / gl.canvas.clientWidth;
         this.mouseY = event.clientY / gl.canvas.clientHeight;
         this.rect.setSize(this.mouseX, this.mouseY);
+    }
+
+    onMouseClick() {
+        this.rect.setShader(shaders.solid).setColor(1, 0, 0);
     }
 }
