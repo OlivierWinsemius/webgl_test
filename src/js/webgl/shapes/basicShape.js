@@ -84,10 +84,11 @@ export default class Shape {
         return this;
     }
 
-    setTextures(textures) {
+    setTextures(...textures) {
         for (let i = 0; i < textures.length; i += 1) {
             this.setTexture(textures[i].texture, textures[i].key);
         }
+        return this;
     }
 
     setTextureCoordinates(coordinates) {

@@ -25,7 +25,7 @@ export default function start(callback) {
         import('./webgl/shaders/shaders.js'),
         import('./webgl/shapes/shapes.js'),
         import('../images/textureFiles.js'),
-        import('./webgl/textures/textures.js'),
+        import('./webgl/textures/loadTexture.js'),
         import('./App.js'),
         import('gl-matrix'),
     ]).then(callback);

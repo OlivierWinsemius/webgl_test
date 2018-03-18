@@ -12,26 +12,21 @@ export default class App {
     constructor() {
         this.update = this.update.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
-        this.onMouseClick = this.onMouseClick.bind(this);
         document.addEventListener('mousemove', this.onMouseMove);
-        document.addEventListener('click', this.onMouseClick);
 
         this.mouseX = 0;
         this.mouseY = 0;
 
-        this.rect = new shapes.Rect(0, 0, 1, 0.5)
-            .setShader(shaders.texture)
-            .setTexture(textures.noise, 'sampler')
-            .setTextureCoordinates([
-                1.0, 1.0,
-                1.0, 0.0,
-                0.0, 1.0,
-                0.0, 0.0,
-            ]);
-
-        this.ellipse = new shapes.Ellipse(0.8, 0.7, 0.6, 0.4)
+        this.rect = new shapes.Rect()
             .setShader(shaders.texture)
             .setTexture(textures.noise, 'sampler');
+
+        this.ellipse = new shapes.Ellipse(0.8, 0.5)
+            .setShader(shaders.texture)
+            .setTextures({
+                texture: textures.noise,
+                key: 'sampler',
+            });
 
         this.update();
     }
@@ -51,10 +46,5 @@ export default class App {
     onMouseMove(event) {
         this.mouseX = event.clientX / gl.canvas.clientWidth;
         this.mouseY = event.clientY / gl.canvas.clientHeight;
-        this.rect.setSize(this.mouseX, this.mouseY);
-    }
-
-    onMouseClick() {
-        this.rect.setShader(shaders.solid).setColor(this.mouseX, this.mouseY, 0);
     }
 }

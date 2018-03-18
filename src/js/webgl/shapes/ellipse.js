@@ -6,14 +6,14 @@ export default class Ellipse extends Shape {
         this.numVertices = 40;
         this.x = (x * 2) - 1;
         this.y = (y * 2) - 1;
-        this.width = width;
-        this.height = height;
+        this.width = width * 2;
+        this.height = height * 2;
 
         this.textureCoordinates = new Array(this.numVertices);
         for (let i = 0; i < this.numVertices; i += 1) {
             const j = (i / this.numVertices) * (Math.PI * 2);
-            this.textureCoordinates[(i * 2) + 0] = 0.5 + (Math.sin(j) / 2);
-            this.textureCoordinates[(i * 2) + 1] = 0.5 - (Math.cos(j) / 2);
+            this.textureCoordinates[(i * 2) + 0] = 0.5 + (Math.cos(j) / 2);
+            this.textureCoordinates[(i * 2) + 1] = 0.5 - (Math.sin(j) / 2);
         }
 
         this.setVertexPositionData();
@@ -25,8 +25,10 @@ export default class Ellipse extends Shape {
             const positions = new Array(this.numVertices);
             for (let i = 0; i < this.numVertices; i += 1) {
                 const j = (i / this.numVertices) * (Math.PI * 2);
-                positions[(i * 2) + 0] = (Math.sin(j) * this.height) + this.x;
-                positions[(i * 2) + 1] = (Math.cos(j) * this.width) - this.y;
+                const width = (Math.cos(j) * (this.width / 2));
+                const height = (Math.sin(j) * (this.height / 2));
+                positions[(i * 2) + 0] = width + this.x;
+                positions[(i * 2) + 1] = height - this.y;
             }
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
         }
