@@ -17,8 +17,13 @@ export default class App {
         this.mouseX = 0;
         this.mouseY = 0;
 
-        this.rect = new shapes.Rect(0, 0, 1, 0.3);
-        this.ellipse = new shapes.Ellipse(0.8, 0.7, 0.6, 0.4).setResolution(8);
+        this.rect = new shapes.Rect(0, 0, 1, 0.5)
+            .setShader(shaders.texture)
+            .setTexture(textures.noise);
+
+        this.ellipse = new shapes.Ellipse(0.8, 0.7, 0.6, 0.4)
+            .setShader(shaders.texture)
+            .setTexture(textures.noise);
 
         this.update();
     }
@@ -38,5 +43,6 @@ export default class App {
     onMouseMove(event) {
         this.mouseX = event.clientX / gl.canvas.clientWidth;
         this.mouseY = event.clientY / gl.canvas.clientHeight;
+        this.rect.setSize(this.mouseX, this.mouseY);
     }
 }

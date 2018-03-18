@@ -12,39 +12,37 @@ export default class Ellipse extends Shape {
         return this;
     }
 
+    setTexture(texture) {
+        gl.activeTexture(gl.TEXTURE);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        this.samplerUniformData = 0;
 
-    setVertexPositionData() {
-        this.bindBufferAttribs();
-        const positions = new Array(this.numVertices);
-        for (let i = 0; i < this.numVertices; i += 1) {
-            const j = (i / this.numVertices) * (Math.PI * 2);
-            positions[(i * 2) + 0] = (Math.sin(j) * this.height) + this.x;
-            positions[(i * 2) + 1] = (Math.cos(j) * this.width) - this.y;
+        if (this.setUniform('sampler')) {
+            const textureCoordinates = new Array(this.numVertices);
+            for (let i = 0; i < this.numVertices; i += 1) {
+                const j = (i / this.numVertices) * (Math.PI * 2);
+                textureCoordinates[(i * 2) + 0] = 0.5 + (Math.sin(j) / 2);
+                textureCoordinates[(i * 2) + 1] = 0.5 - (Math.cos(j) / 2);
+            }
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoordinates), gl.STATIC_DRAW);
         }
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        return this;
     }
 
-    setVertexColorData() {
-        gl.uniform4fv(this.shader.uniforms.color, this.colorData);
+    setVertexPositionData() {
+        if (this.bindAttrib('position')) {
+            const positions = new Array(this.numVertices);
+            for (let i = 0; i < this.numVertices; i += 1) {
+                const j = (i / this.numVertices) * (Math.PI * 2);
+                positions[(i * 2) + 0] = (Math.sin(j) * this.height) + this.x;
+                positions[(i * 2) + 1] = (Math.cos(j) * this.width) - this.y;
+            }
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        }
     }
 
     setColor(r, g, b, a = 1) {
-        this.colorData = [r, g, b, a];
-        this.setVertexColorData();
-        return this;
-    }
-
-    setPosition(x, y) {
-        this.x = (x * 2) - 1;
-        this.y = (y * 2) - 1;
-        this.setVertexPositionData();
-        return this;
-    }
-
-    setSize(width, height) {
-        this.width = width * 2;
-        this.height = height * 2;
-        this.setVertexPositionData();
+        this.colorUniformData = [r, g, b, a];
         return this;
     }
 
@@ -55,7 +53,7 @@ export default class Ellipse extends Shape {
     }
 
     draw() {
-        this.bindBufferAttribs();
+        this.bindBuffers();
         gl.drawArrays(gl.TRIANGLE_FAN, 0, this.numVertices);
     }
 }

@@ -5,10 +5,10 @@ function isPowerOf2(value) {
 export default (source) => {
     const texture = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, texture);
-    // filling with single pixel while loading image
+    // filling with single black pixel while loading image
     gl.texImage2D(
         gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA,
-        gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 255, 255]),
+        gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255]),
     );
 
     const image = new Image();

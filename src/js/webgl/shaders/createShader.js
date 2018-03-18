@@ -6,7 +6,7 @@ export default function createShader(gl, type, source) {
     if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
         const info = gl.getShaderInfoLog(shader);
         gl.deleteShader(shader);
-        throw new Error(info);
+        alert(info);
     }
 
     return shader;

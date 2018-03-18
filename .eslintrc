@@ -16,6 +16,7 @@
         "gl": true,
         "shapes": true,
         "shaders": true,
+        "textures": true,
         "mat4": true
     }
 }
