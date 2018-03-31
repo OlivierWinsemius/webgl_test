@@ -1,0 +1,23 @@
+{
+    "parser": "babel-eslint",
+    "extends": "airbnb-base",
+    "rules": {
+        "indent": ["error", 4],
+        "no-bitwise": 0,
+        "no-alert": 0
+    },
+    "env": {
+        "browser": true,
+        "jest": true
+    },
+    "plugins": [
+        "jest"
+    ],
+    "globals": {
+        "gl": true,
+        "shapes": true,
+        "shaders": true,
+        "textures": true,
+        "mat4": true
+    }
+}

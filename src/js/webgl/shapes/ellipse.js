@@ -1,59 +1,52 @@
-import Shape from './shape'
+import Shape from './basicShape';
 
 export default class Ellipse extends Shape {
     constructor(x = 0, y = 0, width = 0.1, height = 0.1) {
-        super()
+        super();
+        this.numVertices = 40;
+        this.x = (x * 2) - 1;
+        this.y = (y * 2) - 1;
+        this.width = width * 2;
+        this.height = height * 2;
 
-        this.x      = x * 2 - 1
-        this.y      = y * 2 - 1
-        this.width  = width * 2
-        this.height = height * 2
-
-        this.setVertexPositionData()
-        this.setVertexColorData()
-    }
-    
-    // TODO: control amount of segments / draw with different shader?
-    setVertexPositionData() {
-        this.bindBufferAttribs()
-        let positions = []
-        for(let i=0; i<=360; i+=10) {
-            const j = i * Math.PI / 180
-            positions = positions.concat([
-                Math.sin(j) * this.height,
-                Math.cos(j) * this.width,
-                0,
-                0
-            ])
+        this.textureCoordinates = new Array(this.numVertices);
+        for (let i = 0; i < this.numVertices; i += 1) {
+            const j = (i / this.numVertices) * (Math.PI * 2);
+            this.textureCoordinates[(i * 2) + 0] = 0.5 + (Math.cos(j) / 2);
+            this.textureCoordinates[(i * 2) + 1] = 0.5 - (Math.sin(j) / 2);
         }
-        
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW)
+
+        this.setVertexPositionData();
+        return this;
     }
 
-    setVertexColorData(r, g, b, a) {
-        gl.useProgram(this.shader.program)
-        gl.uniform4fv(this.shader.uniforms.color, this.colorData)
+    setVertexPositionData() {
+        if (this.bindAttrib('position')) {
+            const positions = new Array(this.numVertices);
+            for (let i = 0; i < this.numVertices; i += 1) {
+                const j = (i / this.numVertices) * (Math.PI * 2);
+                const width = (Math.cos(j) * (this.width / 2));
+                const height = (Math.sin(j) * (this.height / 2));
+                positions[(i * 2) + 0] = width + this.x;
+                positions[(i * 2) + 1] = height - this.y;
+            }
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+        }
     }
 
-    setColor(r, g, b, a = 1) { 
-        this.colorData = [r, g, b, a]
-        this.setVertexColorData()
+    setColor(r, g, b, a = 1) {
+        this.colorUniformData = [r, g, b, a];
+        return this;
     }
 
-    setPosition(x, y) {
-        this.x = x * 2 - 1
-        this.y = y * 2 - 1
-        this.setVertexPositionData()
-    }
-
-    setSize(width, height) {
-        this.width  = width * 2
-        this.height = height * 2
-        this.setVertexPositionData()
+    setResolution(numVertices) {
+        this.numVertices = numVertices;
+        this.setVertexPositionData();
+        return this;
     }
 
     draw() {
-        this.bindBufferAttribs()
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 73)
+        this.bindBuffers();
+        gl.drawArrays(gl.TRIANGLE_FAN, 0, this.numVertices);
     }
 }
