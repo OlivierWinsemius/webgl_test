@@ -3,6 +3,7 @@ import Shape from './basicShape';
 export default class Ellipse extends Shape {
     constructor(x = 0, y = 0, width = 0.1, height = 0.1) {
         super();
+
         this.numVertices = 40;
         this.x = (x * 2) - 1;
         this.y = (y * 2) - 1;
@@ -32,11 +33,6 @@ export default class Ellipse extends Shape {
             }
             gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
         }
-    }
-
-    setColor(r, g, b, a = 1) {
-        this.colorUniformData = [r, g, b, a];
-        return this;
     }
 
     setResolution(numVertices) {

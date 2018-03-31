@@ -17,7 +17,7 @@ export default class App {
         this.mouseX = 0;
         this.mouseY = 0;
 
-        this.rect = new shapes.Rect()
+        this.rect = new shapes.Rect(0, 0, 0.4, 0.4)
             .setShader(shaders.texture)
             .setTexture(textures.noise, 'sampler');
 
