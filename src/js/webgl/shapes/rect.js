@@ -1,13 +1,8 @@
 import RenderObject from './basicShape';
 
 export default class Rect extends RenderObject {
-    constructor(x = 0, y = 0, width = 0.1, height = 0.1) {
-        super();
-
-        this.x = (x * 2) - 1;
-        this.y = (y * 2) - 1;
-        this.width = width * 2;
-        this.height = height * 2;
+    constructor(x, y, width, height) {
+        super(x, y, width, height);
 
         this.textureCoordinates = [
             1.0, 1.0,
@@ -16,19 +11,27 @@ export default class Rect extends RenderObject {
             0.0, 0.0,
         ];
 
-        this.setVertexPositionData();
+        this.setPositionAttributeData();
         return this;
     }
 
-    setVertexPositionData() {
+    setVertexCoordinates() {
+        this.vertexCoordinates = [
+            this.position.x + this.width, -this.position.y - this.height,
+            this.position.x, -this.position.y - this.height,
+            this.position.x + this.width, -this.position.y,
+            this.position.x, -this.position.y,
+        ];
+    }
+
+    setPositionAttributeData() {
         if (this.bindAttrib('position')) {
-            const positions = [
-                this.x + this.width, -this.y - this.height,
-                this.x, -this.y - this.height,
-                this.x + this.width, -this.y,
-                this.x, -this.y,
-            ];
-            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(positions), gl.STATIC_DRAW);
+            this.setVertexCoordinates();
+            gl.bufferData(
+                gl.ARRAY_BUFFER,
+                new Float32Array(this.vertexCoordinates),
+                gl.STATIC_DRAW,
+            );
         }
     }
 

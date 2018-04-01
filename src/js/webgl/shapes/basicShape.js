@@ -1,5 +1,12 @@
 export default class Shape {
-    constructor() {
+    constructor(x = 0, y = 0, width = 0.1, height = 0.1) {
+        this.width = width * 2;
+        this.height = height * 2;
+        this.position = {
+            x: (x * 2) - 1,
+            y: (y * 2) - 1,
+        };
+
         this.shader = shaders.solid;
         this.colorUniformData = Shape.defaultColor;
         this.textureUniformData = 0;
@@ -109,9 +116,34 @@ export default class Shape {
     }
 
     setPosition(x, y) {
-        this.x = (x * 2) - 1;
-        this.y = (y * 2) - 1;
+        this.position = {
+            x: (x * 2) - 1,
+            y: (y * 2) - 1,
+        };
         this.setVertexPositionData();
+        return this;
+    }
+
+    rotateX(deg) {
+        const c = Math.cos(deg);
+        const s = Math.sin(deg);
+
+        const rotationMatrix = [
+            1, 0, 0, 0,
+            0, c, s, 0,
+            0, -c, s, 0,
+            0, 0, 0, 1,
+        ];
+
+        const x = this.vertexCoordinates[0];
+        const z = this.vertexCoordinates[1];
+        const y = this.vertexCoordinates[2];
+        const newPositions = rotationMatrix.map((v, i) =>
+            (x * rotationMatrix[i + 0]) +
+            (y * rotationMatrix[i + 4]) +
+            (z * rotationMatrix[i + 8]) +
+            (1 * rotationMatrix[i + 12]));
+        this.vertexCoordinates = newPositions;
         return this;
     }
 
