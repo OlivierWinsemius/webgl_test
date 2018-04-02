@@ -22,8 +22,8 @@ const loaded = ([
 
 export default function start(callback) {
     return Promise.all([
-        import('./webgl/shaders/shaders.js'),
-        import('./webgl/shapes/shapes.js'),
+        import('./webgl/shaders/'),
+        import('./webgl/shapes/'),
         import('../images/textureFiles.js'),
         import('./webgl/textures/loadTexture.js'),
         import('./App.js'),
