@@ -1,20 +1,17 @@
 export default class Shape {
-    constructor(x = 0, y = 0, width = 0.1, height = 0.1) {
-        this.width = width * 2;
-        this.height = height * 2;
-        this.position = {
-            x: (x * 2) - 1,
-            y: (y * 2) - 1,
-        };
+    constructor(x = 0, y = 0, z = 0, scaleX = 1, scaleY = 1, scaleZ = 1) {
+        this.width = 1;
+        this.height = 1;
+        this.origin = { x: 0, y: 0 };
 
         this.shader = shaders.solid;
         this.colorUniformData = Shape.defaultColor;
         this.textureUniformData = 0;
         this.modelViewUniformData = [
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1,
+            scaleX, 0, 0, 0,
+            0, scaleY, 0, 0,
+            0, 0, scaleZ, 0,
+            x, y, z, 1,
         ];
 
         this.bindBuffers();
@@ -125,10 +122,10 @@ export default class Shape {
         return this;
     }
 
-    setPosition(x, y) {
-        this.position = {
-            x: (x * 2) - 1,
-            y: (y * 2) - 1,
+    setOrigin(x, y) {
+        this.origin = {
+            x: -x,
+            y: -y,
         };
         this.setPositionAttributeData();
         return this;
@@ -138,7 +135,7 @@ export default class Shape {
         const c = Math.cos(angle);
         const s = Math.sin(angle);
 
-        this.setRotationMatrix([
+        this.applyModelViewMatrix([
             c, s, 0, 0,
             -s, c, 0, 0,
             0, 0, 1, 0,
@@ -152,7 +149,7 @@ export default class Shape {
         const c = Math.cos(angle);
         const s = Math.sin(angle);
 
-        this.setRotationMatrix([
+        this.applyModelViewMatrix([
             c, 0, -s, 0,
             0, 1, 0, 0,
             s, 0, c, 0,
@@ -166,7 +163,7 @@ export default class Shape {
         const c = Math.cos(angle);
         const s = Math.sin(angle);
 
-        this.setRotationMatrix([
+        this.applyModelViewMatrix([
             1, 0, 0, 0,
             0, c, -s, 0,
             0, s, c, 0,
@@ -184,10 +181,55 @@ export default class Shape {
                 this.rotateZ(degZ);
             }
         }
+
         return this;
     }
 
-    setRotationMatrix(newMatrix) {
+    scaleX(value) {
+        this.applyModelViewMatrix([
+            value, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1,
+        ]);
+
+        return this;
+    }
+
+    scaleY(value) {
+        this.applyModelViewMatrix([
+            1, 0, 0, 0,
+            0, value, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1,
+        ]);
+
+        return this;
+    }
+
+    scaleZ(value) {
+        this.applyModelViewMatrix([
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, value, 0,
+            0, 0, 0, 1,
+        ]);
+
+        return this;
+    }
+
+    scale(x, y = 1, z = 1) {
+        this.applyModelViewMatrix([
+            x, 0, 0, 0,
+            0, y, 0, 0,
+            0, 0, z, 0,
+            0, 0, 0, 1,
+        ]);
+
+        return this;
+    }
+
+    applyModelViewMatrix(newMatrix) {
         const oldMatrix = this.modelViewUniformData;
         const matrix = new Array(16);
         for (let row = 0; row < 4; row += 1) {

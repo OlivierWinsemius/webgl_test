@@ -1,8 +1,8 @@
 import Shape from './basicShape';
 
 export default class Ellipse extends Shape {
-    constructor(x, y, width, height) {
-        super(x, y, width, height);
+    constructor(...rest) {
+        super(...rest);
         this.numVertices = 40;
 
         this.setPositionAttributeData();
@@ -23,17 +23,17 @@ export default class Ellipse extends Shape {
         const coordinates = new Array(this.numVertices);
         for (let i = 0; i < this.numVertices; i += 1) {
             const j = (i / this.numVertices) * (Math.PI * 2);
-            const w = (Math.cos(j) * (this.width / 2));
-            const h = (Math.sin(j) * (this.height / 2));
-            coordinates[(i * 2) + 0] = w + this.position.x;
-            coordinates[(i * 2) + 1] = h - this.position.y;
+            const w = (Math.cos(j) * (this.width / 2)) + (this.width * 0.5);
+            const h = (Math.sin(j) * (this.height / 2)) - (this.height * 0.5);
+            coordinates[(i * 2) + 0] = w + this.origin.x;
+            coordinates[(i * 2) + 1] = h - this.origin.y;
         }
         return coordinates;
     }
 
     setResolution(numVertices) {
         this.numVertices = numVertices;
-        this.setVertexPositionData();
+        this.setPositionAttributeData();
         return this;
     }
 

@@ -6,7 +6,7 @@
   "scripts": {
     "buildDev": "webpack --mode development --config webpack.dev.js",
     "build": "webpack --mode production --config webpack.prod.js",
-    "start": "webpack-dev-server --mode development --open --config webpack.dev.js",
+    "start": "webpack-dev-server --mode development --config webpack.dev.js",
     "test": "jest",
     "lint": "eslint ."
   },

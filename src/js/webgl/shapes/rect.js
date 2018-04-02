@@ -1,8 +1,8 @@
 import RenderObject from './basicShape';
 
 export default class Rect extends RenderObject {
-    constructor(x, y, width, height) {
-        super(x, y, width, height);
+    constructor(...rest) {
+        super(...rest);
         this.setPositionAttributeData();
         return this;
     }
@@ -18,10 +18,10 @@ export default class Rect extends RenderObject {
 
     getVertexCoordinates() {
         return [
-            this.position.x + this.width, -this.position.y - this.height,
-            this.position.x, -this.position.y - this.height,
-            this.position.x + this.width, -this.position.y,
-            this.position.x, -this.position.y,
+            this.origin.x + this.width, -this.origin.y - this.height,
+            this.origin.x, -this.origin.y - this.height,
+            this.origin.x + this.width, -this.origin.y,
+            this.origin.x, -this.origin.y,
         ];
     }
 

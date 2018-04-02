@@ -16,6 +16,8 @@ module.exports = merge(common, {
         hot: true,
         contentBase: path.resolve(__dirname, 'dist', 'dev'),
         watchContentBase: true,
+        host: '0.0.0.0',
+        overlay: true,
     },
 
     plugins: [
