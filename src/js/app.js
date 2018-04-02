@@ -17,8 +17,8 @@ export default class App {
         this.mouseX = 0;
         this.mouseY = 0;
 
-        this.rect = new shapes.Rect().setOrigin(0.5, 0.5).scale(0.2, 0.2);
-        this.ellipse = new shapes.Ellipse().setOrigin(0.5, 0.5).scale(0.4, 0.4).setResolution(3);
+        this.rect = new shapes.Rect(0.4, 0, 0, 0.1, 0.4).setOrigin(0.5, 0);
+        this.ellipse = new shapes.Ellipse().setOrigin(0.5, 0.5).scale(1, 1).setResolution(3);
 
         this.update();
     }

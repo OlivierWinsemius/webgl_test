@@ -4,15 +4,30 @@ export default class Shape {
         this.height = 1;
         this.origin = { x: 0, y: 0 };
 
-        this.shader = shaders.solid;
-        this.colorUniformData = Shape.defaultColor;
-        this.textureUniformData = 0;
-        this.modelViewUniformData = [
+        this.rotationMatrix = [
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1,
+        ];
+
+        this.translationMatrix = [
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            x, y, z, 1,
+        ];
+
+        this.scaleMatrix = [
             scaleX, 0, 0, 0,
             0, scaleY, 0, 0,
             0, 0, scaleZ, 0,
-            x, y, z, 1,
+            0, 0, 0, 1,
         ];
+
+        this.shader = shaders.solid;
+        this.colorUniformData = Shape.defaultColor;
+        this.textureUniformData = 0;
 
         this.bindBuffers();
     }
@@ -65,7 +80,15 @@ export default class Shape {
                 }
                 break;
             case 'modelView':
-                gl.uniformMatrix4fv(uniform, false, this[uniformKey]);
+                gl.uniformMatrix4fv(
+                    uniform,
+                    false,
+                    this.combineMatrices(
+                        this.translationMatrix,
+                        this.rotationMatrix,
+                        this.scaleMatrix,
+                    ),
+                );
                 break;
             default:
                 return false;
@@ -131,31 +154,55 @@ export default class Shape {
         return this;
     }
 
-    rotateZ(angle) {
-        const c = Math.cos(angle);
-        const s = Math.sin(angle);
-
-        this.applyModelViewMatrix([
-            c, s, 0, 0,
-            -s, c, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1,
-        ]);
-
+    translateX(value) {
+        this.translationMatrix = this.combineMatrices(
+            this.translationMatrix,
+            [
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                value, 0, 0, 1,
+            ],
+        );
         return this;
     }
 
-    rotateY(angle) {
-        const c = Math.cos(angle);
-        const s = Math.sin(angle);
+    translateY(value) {
+        this.translationMatrix = this.combineMatrices(
+            this.translationMatrix,
+            [
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, value, 0, 1,
+            ],
+        );
+        return this;
+    }
 
-        this.applyModelViewMatrix([
-            c, 0, -s, 0,
-            0, 1, 0, 0,
-            s, 0, c, 0,
-            0, 0, 0, 1,
-        ]);
+    translateZ(value) {
+        this.translationMatrix = this.combineMatrices(
+            this.translationMatrix,
+            [
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, value, 1,
+            ],
+        );
+        return this;
+    }
 
+    translate(x, y = 0, z = 0) {
+        this.translationMatrix = this.combineMatrices(
+            this.translationMatrix,
+            [
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                x, y, z, 1,
+            ],
+        );
         return this;
     }
 
@@ -163,13 +210,47 @@ export default class Shape {
         const c = Math.cos(angle);
         const s = Math.sin(angle);
 
-        this.applyModelViewMatrix([
-            1, 0, 0, 0,
-            0, c, -s, 0,
-            0, s, c, 0,
-            0, 0, 0, 1,
-        ]);
+        this.rotationMatrix = this.combineMatrices(
+            this.rotationMatrix,
+            [
+                1, 0, 0, 0,
+                0, c, -s, 0,
+                0, s, c, 0,
+                0, 0, 0, 1,
+            ],
+        );
+        return this;
+    }
 
+    rotateY(angle) {
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
+
+        this.rotationMatrix = this.combineMatrices(
+            this.rotationMatrix,
+            [
+                c, 0, -s, 0,
+                0, 1, 0, 0,
+                s, 0, c, 0,
+                0, 0, 0, 1,
+            ],
+        );
+        return this;
+    }
+
+    rotateZ(angle) {
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
+
+        this.rotationMatrix = this.combineMatrices(
+            this.rotationMatrix,
+            [
+                c, s, 0, 0,
+                -s, c, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1,
+            ],
+        );
         return this;
     }
 
@@ -181,56 +262,63 @@ export default class Shape {
                 this.rotateZ(degZ);
             }
         }
-
         return this;
     }
 
     scaleX(value) {
-        this.applyModelViewMatrix([
-            value, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1,
-        ]);
-
+        this.scaleMatrix = this.combineMatrices(
+            this.scaleMatrix,
+            [
+                value, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1,
+            ],
+        );
         return this;
     }
 
     scaleY(value) {
-        this.applyModelViewMatrix([
-            1, 0, 0, 0,
-            0, value, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1,
-        ]);
-
+        this.scaleMatrix = this.combineMatrices(
+            this.scaleMatrix,
+            [
+                1, 0, 0, 0,
+                0, value, 0, 0,
+                0, 0, 1, 0,
+                0, 0, 0, 1,
+            ],
+        );
         return this;
     }
 
     scaleZ(value) {
-        this.applyModelViewMatrix([
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, value, 0,
-            0, 0, 0, 1,
-        ]);
-
+        this.scaleMatrix = this.combineMatrices(
+            this.scaleMatrix,
+            [
+                1, 0, 0, 0,
+                0, 1, 0, 0,
+                0, 0, value, 0,
+                0, 0, 0, 1,
+            ],
+        );
         return this;
     }
 
     scale(x, y = 1, z = 1) {
-        this.applyModelViewMatrix([
-            x, 0, 0, 0,
-            0, y, 0, 0,
-            0, 0, z, 0,
-            0, 0, 0, 1,
-        ]);
-
+        this.scaleMatrix = this.combineMatrices(
+            this.scaleMatrix,
+            [
+                x, 0, 0, 0,
+                0, y, 0, 0,
+                0, 0, z, 0,
+                0, 0, 0, 1,
+            ],
+        );
         return this;
     }
 
-    applyModelViewMatrix(newMatrix) {
-        const oldMatrix = this.modelViewUniformData;
+    combineMatrices(oldMatrix, ...rest) {
+        const newMatrix = rest.shift();
         const matrix = new Array(16);
         for (let row = 0; row < 4; row += 1) {
             for (let col = 0; col < 4; col += 1) {
@@ -244,9 +332,10 @@ export default class Shape {
             }
         }
 
-        this.modelViewUniformData = matrix;
-
-        return this;
+        if (rest.length) {
+            return this.combineMatrices(matrix, ...rest);
+        }
+        return matrix;
     }
 
     setSize(width, height) {
