@@ -1,10 +1,10 @@
 import createShader from './createShader';
 import createProgram from './createProgram';
 
-import solidShader from './solid/solidShader';
-import textureShader from './texture/textureShader';
+import SolidShader from './solid/solidShader';
+import TextureShader from './texture/textureShader';
 
 export default () => ({
-    solid: solidShader(createProgram, createShader),
-    texture: textureShader(createProgram, createShader),
+    Solid: () => new SolidShader(createProgram, createShader),
+    Texture: () => new TextureShader(createProgram, createShader),
 });

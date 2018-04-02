@@ -4,7 +4,6 @@ export default class Rect extends RenderObject {
     constructor(...rest) {
         super(...rest);
         this.setPositionAttributeData();
-        return this;
     }
 
     getTextureCoordinates() {
@@ -26,7 +25,7 @@ export default class Rect extends RenderObject {
     }
 
     draw() {
-        this.bindBuffers();
+        this.setAttributes();
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     }
 }

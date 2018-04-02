@@ -1,35 +1,22 @@
-export default class Shape {
-    constructor(x = 0, y = 0, z = 0, scaleX = 1, scaleY = 1, scaleZ = 1) {
+import Matrices from './utils/matrices';
+
+export default class Shape extends Matrices {
+    constructor(...rest) {
+        super(...rest);
+
         this.width = 1;
         this.height = 1;
         this.origin = { x: 0, y: 0 };
 
-        this.rotationMatrix = [
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1,
-        ];
-
-        this.translationMatrix = [
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            x, y, z, 1,
-        ];
-
-        this.scaleMatrix = [
-            scaleX, 0, 0, 0,
-            0, scaleY, 0, 0,
-            0, 0, scaleZ, 0,
-            0, 0, 0, 1,
-        ];
-
-        this.shader = shaders.solid;
+        this.shader = shaders.Solid();
         this.colorUniformData = Shape.defaultColor;
         this.textureUniformData = 0;
 
-        this.bindBuffers();
+        this.updateTranslationMatrix();
+        this.updateRotationMatrix();
+        this.updateScaleMatrix();
+        this.setAttributes();
+        this.setUniforms();
     }
 
     setPositionAttributeData() {
@@ -45,6 +32,7 @@ export default class Shape {
     bindAttrib(attrib) {
         const attribute = this.shader.attributes[attrib];
         if (attribute !== null) {
+            gl.useProgram(this.shader.program);
             const attributeKey = `${attrib}AttributeData`;
             if (!this[attributeKey]) {
                 this[attributeKey] = gl.createBuffer();
@@ -68,7 +56,8 @@ export default class Shape {
 
     setUniform(uni) {
         const uniform = this.shader.uniforms[uni];
-        if (uniform !== null) {
+        if (uniform !== null && uniform !== -1) {
+            gl.useProgram(this.shader.program);
             const uniformKey = `${uni}UniformData`;
             switch (uni) {
             case 'color':
@@ -98,12 +87,13 @@ export default class Shape {
         return false;
     }
 
-    bindBuffers() {
-        gl.useProgram(this.shader.program);
+    setAttributes() {
         Object.keys(this.shader.attributes).forEach((key) => {
             this.bindAttrib(key);
         });
+    }
 
+    setUniforms() {
         Object.keys(this.shader.uniforms).forEach((key) => {
             this.setUniform(key);
         });
@@ -112,7 +102,8 @@ export default class Shape {
     setShader(shader) {
         this.shader = shader;
         gl.useProgram(this.shader.program);
-        this.bindBuffers();
+        this.setAttributes();
+        this.setUniforms();
         return this;
     }
 
@@ -152,190 +143,6 @@ export default class Shape {
         };
         this.setPositionAttributeData();
         return this;
-    }
-
-    translateX(value) {
-        this.translationMatrix = this.combineMatrices(
-            this.translationMatrix,
-            [
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                value, 0, 0, 1,
-            ],
-        );
-        return this;
-    }
-
-    translateY(value) {
-        this.translationMatrix = this.combineMatrices(
-            this.translationMatrix,
-            [
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, value, 0, 1,
-            ],
-        );
-        return this;
-    }
-
-    translateZ(value) {
-        this.translationMatrix = this.combineMatrices(
-            this.translationMatrix,
-            [
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, value, 1,
-            ],
-        );
-        return this;
-    }
-
-    translate(x, y = 0, z = 0) {
-        this.translationMatrix = this.combineMatrices(
-            this.translationMatrix,
-            [
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                x, y, z, 1,
-            ],
-        );
-        return this;
-    }
-
-    rotateX(angle) {
-        const c = Math.cos(angle);
-        const s = Math.sin(angle);
-
-        this.rotationMatrix = this.combineMatrices(
-            this.rotationMatrix,
-            [
-                1, 0, 0, 0,
-                0, c, -s, 0,
-                0, s, c, 0,
-                0, 0, 0, 1,
-            ],
-        );
-        return this;
-    }
-
-    rotateY(angle) {
-        const c = Math.cos(angle);
-        const s = Math.sin(angle);
-
-        this.rotationMatrix = this.combineMatrices(
-            this.rotationMatrix,
-            [
-                c, 0, -s, 0,
-                0, 1, 0, 0,
-                s, 0, c, 0,
-                0, 0, 0, 1,
-            ],
-        );
-        return this;
-    }
-
-    rotateZ(angle) {
-        const c = Math.cos(angle);
-        const s = Math.sin(angle);
-
-        this.rotationMatrix = this.combineMatrices(
-            this.rotationMatrix,
-            [
-                c, s, 0, 0,
-                -s, c, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1,
-            ],
-        );
-        return this;
-    }
-
-    rotate(degX, degY, degZ) {
-        this.rotateX(degX);
-        if (degY !== undefined) {
-            this.rotateY(degY);
-            if (degZ !== undefined) {
-                this.rotateZ(degZ);
-            }
-        }
-        return this;
-    }
-
-    scaleX(value) {
-        this.scaleMatrix = this.combineMatrices(
-            this.scaleMatrix,
-            [
-                value, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1,
-            ],
-        );
-        return this;
-    }
-
-    scaleY(value) {
-        this.scaleMatrix = this.combineMatrices(
-            this.scaleMatrix,
-            [
-                1, 0, 0, 0,
-                0, value, 0, 0,
-                0, 0, 1, 0,
-                0, 0, 0, 1,
-            ],
-        );
-        return this;
-    }
-
-    scaleZ(value) {
-        this.scaleMatrix = this.combineMatrices(
-            this.scaleMatrix,
-            [
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, value, 0,
-                0, 0, 0, 1,
-            ],
-        );
-        return this;
-    }
-
-    scale(x, y = 1, z = 1) {
-        this.scaleMatrix = this.combineMatrices(
-            this.scaleMatrix,
-            [
-                x, 0, 0, 0,
-                0, y, 0, 0,
-                0, 0, z, 0,
-                0, 0, 0, 1,
-            ],
-        );
-        return this;
-    }
-
-    combineMatrices(oldMatrix, ...rest) {
-        const newMatrix = rest.shift();
-        const matrix = new Array(16);
-        for (let row = 0; row < 4; row += 1) {
-            for (let col = 0; col < 4; col += 1) {
-                matrix[(row * 4) + col] = 0;
-                for (let i = 0; i < 4; i += 1) {
-                    matrix[(row * 4) + col] += (
-                        oldMatrix[(i * 4) + col] *
-                        newMatrix[(row * 4) + i]
-                    );
-                }
-            }
-        }
-
-        if (rest.length) {
-            return this.combineMatrices(matrix, ...rest);
-        }
-        return matrix;
     }
 
     setSize(width, height) {

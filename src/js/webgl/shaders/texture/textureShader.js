@@ -1,17 +1,18 @@
 const vertex = require('../../../../shaders/texture/vertex.glsl');
 const fragment = require('../../../../shaders/texture/fragment.glsl');
 
-export default (createProgram, createShader) => {
-    const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertex);
-    const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragment);
-    const program = createProgram(gl, vertexShader, fragmentShader);
-    const attributes = {
-        position: gl.getAttribLocation(program, 'aVertexPosition'),
-        textureCoord: gl.getAttribLocation(program, 'aTextureCoord'),
-    };
-    const uniforms = {
-        modelView: gl.getUniformLocation(program, 'uModelViewMatrix'),
-        sampler: gl.getUniformLocation(program, 'uSampler'),
-    };
-    return { program, uniforms, attributes };
-};
+export default class TextureShader {
+    constructor(createProgram, createShader) {
+        const vertexShader = createShader(gl, gl.VERTEX_SHADER, vertex);
+        const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragment);
+        this.program = createProgram(gl, vertexShader, fragmentShader);
+        this.attributes = {
+            position: gl.getAttribLocation(this.program, 'aVertexPosition'),
+            textureCoord: gl.getAttribLocation(this.program, 'aTextureCoord'),
+        };
+        this.uniforms = {
+            modelView: gl.getUniformLocation(this.program, 'uModelViewMatrix'),
+            sampler: gl.getUniformLocation(this.program, 'uSampler'),
+        };
+    }
+}

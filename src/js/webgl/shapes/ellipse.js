@@ -38,7 +38,7 @@ export default class Ellipse extends Shape {
     }
 
     draw() {
-        this.bindBuffers();
+        this.setAttributes();
         gl.drawArrays(gl.TRIANGLE_FAN, 0, this.numVertices);
     }
 }

@@ -17,8 +17,18 @@ export default class App {
         this.mouseX = 0;
         this.mouseY = 0;
 
-        this.rect = new shapes.Rect(0.4, 0, 0, 0.1, 0.4).setOrigin(0.5, 0);
-        this.ellipse = new shapes.Ellipse().setOrigin(0.5, 0.5).scale(1, 1).setResolution(3);
+        this.ellipse = new shapes.Ellipse()
+            .scale(0.2, 1)
+            .setOrigin(0.5, 0.5)
+            .setResolution(100)
+            .setShader(shaders.Texture())
+            .setTexture(textures.noise, 'sampler')
+
+        this.rect = new shapes.Rect()
+            .scale(0.4, 0.4)
+            .translate(0, -0.5)
+            .translateX(1)
+            .setOrigin(0.5, 0.5);
 
         this.update();
     }
@@ -31,8 +41,8 @@ export default class App {
 
     draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        this.rect.rotateZ(0.01).draw();
-        this.ellipse.rotateZ(0.02).draw();
+        this.rect.rotate(0, 0, 0.2).draw();
+        this.ellipse.rotate(0, 0, 0.1).draw();
     }
 
     onMouseMove(event) {
