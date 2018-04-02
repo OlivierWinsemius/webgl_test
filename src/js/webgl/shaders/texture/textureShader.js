@@ -10,6 +10,7 @@ export default (createProgram, createShader) => {
         textureCoord: gl.getAttribLocation(program, 'aTextureCoord'),
     };
     const uniforms = {
+        modelView: gl.getUniformLocation(program, 'uModelViewMatrix'),
         sampler: gl.getUniformLocation(program, 'uSampler'),
     };
     return { program, uniforms, attributes };

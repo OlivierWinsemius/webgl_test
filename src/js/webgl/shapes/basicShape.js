@@ -10,7 +10,24 @@ export default class Shape {
         this.shader = shaders.solid;
         this.colorUniformData = Shape.defaultColor;
         this.textureUniformData = 0;
+        this.modelViewUniformData = [
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1,
+        ];
+
         this.bindBuffers();
+    }
+
+    setPositionAttributeData() {
+        if (this.bindAttrib('position')) {
+            gl.bufferData(
+                gl.ARRAY_BUFFER,
+                new Float32Array(this.getVertexCoordinates()),
+                gl.STATIC_DRAW,
+            );
+        }
     }
 
     bindAttrib(attrib) {
@@ -50,6 +67,9 @@ export default class Shape {
                     gl.uniform1i(uniform, i);
                 }
                 break;
+            case 'modelView':
+                gl.uniformMatrix4fv(uniform, false, this[uniformKey]);
+                break;
             default:
                 return false;
             }
@@ -81,10 +101,12 @@ export default class Shape {
         gl.bindTexture(gl.TEXTURE_2D, texture);
         this.textureUniformData += 1;
 
+        const textureCoordinates = this.getTextureCoordinates();
+
         if (this.setUniform(uniform)) {
             gl.bufferData(
                 gl.ARRAY_BUFFER,
-                new Float32Array(this.textureCoordinates),
+                new Float32Array(textureCoordinates),
                 gl.STATIC_DRAW,
             );
         }
@@ -94,18 +116,6 @@ export default class Shape {
     setTextures(...textures) {
         for (let i = 0; i < textures.length; i += 1) {
             this.setTexture(textures[i].texture, textures[i].key);
-        }
-        return this;
-    }
-
-    setTextureCoordinates(coordinates) {
-        this.textureCoordinates = coordinates;
-        if (this.bindAttrib('textureCoord')) {
-            gl.bufferData(
-                gl.ARRAY_BUFFER,
-                new Float32Array(this.textureCoordinates),
-                gl.STATIC_DRAW,
-            );
         }
         return this;
     }
@@ -120,30 +130,80 @@ export default class Shape {
             x: (x * 2) - 1,
             y: (y * 2) - 1,
         };
-        this.setVertexPositionData();
+        this.setPositionAttributeData();
         return this;
     }
 
-    rotateX(deg) {
-        const c = Math.cos(deg);
-        const s = Math.sin(deg);
+    rotateZ(angle) {
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
 
-        const rotationMatrix = [
-            1, 0, 0, 0,
-            0, c, s, 0,
-            0, -c, s, 0,
+        this.setRotationMatrix([
+            c, s, 0, 0,
+            -s, c, 0, 0,
+            0, 0, 1, 0,
             0, 0, 0, 1,
-        ];
+        ]);
 
-        const x = this.vertexCoordinates[0];
-        const z = this.vertexCoordinates[1];
-        const y = this.vertexCoordinates[2];
-        const newPositions = rotationMatrix.map((v, i) =>
-            (x * rotationMatrix[i + 0]) +
-            (y * rotationMatrix[i + 4]) +
-            (z * rotationMatrix[i + 8]) +
-            (1 * rotationMatrix[i + 12]));
-        this.vertexCoordinates = newPositions;
+        return this;
+    }
+
+    rotateY(angle) {
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
+
+        this.setRotationMatrix([
+            c, 0, -s, 0,
+            0, 1, 0, 0,
+            s, 0, c, 0,
+            0, 0, 0, 1,
+        ]);
+
+        return this;
+    }
+
+    rotateX(angle) {
+        const c = Math.cos(angle);
+        const s = Math.sin(angle);
+
+        this.setRotationMatrix([
+            1, 0, 0, 0,
+            0, c, -s, 0,
+            0, s, c, 0,
+            0, 0, 0, 1,
+        ]);
+
+        return this;
+    }
+
+    rotate(degX, degY, degZ) {
+        this.rotateX(degX);
+        if (degY !== undefined) {
+            this.rotateY(degY);
+            if (degZ !== undefined) {
+                this.rotateZ(degZ);
+            }
+        }
+        return this;
+    }
+
+    setRotationMatrix(newMatrix) {
+        const oldMatrix = this.modelViewUniformData;
+        const matrix = new Array(16);
+        for (let row = 0; row < 4; row += 1) {
+            for (let col = 0; col < 4; col += 1) {
+                matrix[(row * 4) + col] = 0;
+                for (let i = 0; i < 4; i += 1) {
+                    matrix[(row * 4) + col] += (
+                        oldMatrix[(i * 4) + col] *
+                        newMatrix[(row * 4) + i]
+                    );
+                }
+            }
+        }
+
+        this.modelViewUniformData = matrix;
+
         return this;
     }
 

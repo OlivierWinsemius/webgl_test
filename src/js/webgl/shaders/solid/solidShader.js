@@ -9,6 +9,7 @@ export default (createProgram, createShader) => {
         position: gl.getAttribLocation(program, 'aVertexPosition'),
     };
     const uniforms = {
+        modelView: gl.getUniformLocation(program, 'uModelViewMatrix'),
         color: gl.getUniformLocation(program, 'uColor'),
     };
     return { program, uniforms, attributes };
