@@ -10,8 +10,9 @@ export default class SolidShader {
             position: gl.getAttribLocation(this.program, 'aVertexPosition'),
         };
         this.uniforms = {
-            modelView: gl.getUniformLocation(this.program, 'uModelViewMatrix'),
             color: gl.getUniformLocation(this.program, 'uColor'),
+            modelView: gl.getUniformLocation(this.program, 'uModelViewMatrix'),
+            projection: gl.getUniformLocation(this.program, 'uProjectionMatrix'),
         };
     }
 }

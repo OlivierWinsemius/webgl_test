@@ -1,4 +1,4 @@
-export default class shapeMatrices {
+export default class Matrices {
     constructor(
         x = 0,
         y = 0,
@@ -56,12 +56,14 @@ export default class shapeMatrices {
         return this;
     }
 
-    translate(x, y = 0, z = 0) {
+    translate(x2, y2 = 0, z2 = 0) {
+        const { x, y, z } = this.translation;
         this.translation = {
-            x: this.translation.x + x,
-            y: this.translation.y + y,
-            z: this.translation.z + z,
+            x: x + x2,
+            y: y + y2,
+            z: z + z2,
         };
+        console.log({ x, y, z }, { x2, y2, z2 }, this.translation);
         this.updateTranslationMatrix();
         return this;
     }
@@ -95,19 +97,19 @@ export default class shapeMatrices {
     }
 
     scaleX(value) {
-        this.scaling.x += value;
+        this.scaling.x *= value;
         this.updateScaleMatrix();
         return this;
     }
 
     scaleY(value) {
-        this.scaling.y += value;
+        this.scaling.y *= value;
         this.updateScaleMatrix();
         return this;
     }
 
     scaleZ(value) {
-        this.scaling.z += value;
+        this.scaling.z *= value;
         this.updateScaleMatrix();
         return this;
     }
@@ -122,22 +124,19 @@ export default class shapeMatrices {
         return this;
     }
 
-    updateTranslationMatrix() {
+    updateTranslationMatrix(update = true) {
         const { x, y, z } = this.translation;
-        this.translationMatrix = this.combineMatrices(
-            this.translationMatrix,
-            [
-                1, 0, 0, 0,
-                0, 1, 0, 0,
-                0, 0, 1, 0,
-                x, -y, z, 1,
-            ],
-        );
+        this.translationMatrix = [
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            x, -y, z, 1,
+        ];
 
-        this.setUniform('modelView');
+        if (update) this.setUniform('modelView');
     }
 
-    updateRotationMatrix() {
+    updateRotationMatrix(update = true) {
         const { x, y, z } = this.rotation;
         const cx = Math.cos(x);
         const cy = Math.cos(y);
@@ -154,22 +153,19 @@ export default class shapeMatrices {
             0, 0, 0, 1,
         ];
 
-        this.setUniform('modelView');
+        if (update) this.setUniform('modelView');
     }
 
-    updateScaleMatrix() {
+    updateScaleMatrix(update = true) {
         const { x, y, z } = this.scaling;
-        this.scaleMatrix = this.combineMatrices(
-            this.scaleMatrix,
-            [
-                x, 0, 0, 0,
-                0, y, 0, 0,
-                0, 0, z, 0,
-                0, 0, 0, 1,
-            ],
-        );
+        this.scaleMatrix = [
+            x, 0, 0, 0,
+            0, y, 0, 0,
+            0, 0, z, 0,
+            0, 0, 0, 1,
+        ];
 
-        this.setUniform('modelView');
+        if (update) this.setUniform('modelView');
     }
 
     combineMatrices(oldMatrix, ...rest) {

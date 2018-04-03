@@ -11,8 +11,9 @@ export default class TextureShader {
             textureCoord: gl.getAttribLocation(this.program, 'aTextureCoord'),
         };
         this.uniforms = {
-            modelView: gl.getUniformLocation(this.program, 'uModelViewMatrix'),
             sampler: gl.getUniformLocation(this.program, 'uSampler'),
+            modelView: gl.getUniformLocation(this.program, 'uModelViewMatrix'),
+            projection: gl.getUniformLocation(this.program, 'uProjectionMatrix'),
         };
     }
 }
