@@ -1,15 +1,17 @@
 const loaded = ([
     { default: getShaders },
     { default: shapes },
+    { default: Camera },
     { default: textureFiles },
     { default: getTextures },
     { default: App },
-    { mat4 },
+    vec,
 ]) => {
     const canvas = document.getElementById('canvas');
+    global.vec = vec;
     global.gl = canvas.getContext('webgl');
     global.shapes = shapes;
-    global.mat4 = mat4;
+    global.Camera = new Camera();
     global.shaders = getShaders();
     global.textures = getTextures(textureFiles);
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -24,10 +26,11 @@ export default function start(callback) {
     return Promise.all([
         import('./webgl/shaders/'),
         import('./webgl/shapes/'),
+        import('./webgl/camera/'),
         import('../images/textureFiles.js'),
         import('./webgl/textures/loadTexture.js'),
         import('./App.js'),
-        import('gl-matrix'),
+        import('./utils/vector'),
     ]).then(callback);
 }
 

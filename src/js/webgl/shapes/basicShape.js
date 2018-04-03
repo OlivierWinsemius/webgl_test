@@ -1,7 +1,6 @@
-import ModelViewMatrix from './matrices/modelViewMatrix';
-import ProjectionMatrix from './matrices/projectionMatrix';
+import ModelMatrix from '../matrices/modelMatrix';
 
-export default class Shape extends ModelViewMatrix {
+export default class Shape extends ModelMatrix {
     constructor(...rest) {
         super(...rest);
 
@@ -12,7 +11,7 @@ export default class Shape extends ModelViewMatrix {
         this.shader = shaders.Solid();
         this.colorUniformData = Shape.defaultColor;
         this.textureUniformData = 0;
-        this.projectionUniformData = ProjectionMatrix.matrix;
+        this.projectionUniformData = Camera.Projection.matrix;
 
         this.updateTranslationMatrix(false);
         this.updateRotationMatrix(false);
@@ -61,7 +60,6 @@ export default class Shape extends ModelViewMatrix {
         if (uniform !== null && uniform !== -1) {
             gl.useProgram(this.shader.program);
             const uniformKey = `${uni}UniformData`;
-            console.log(uniformKey);
             switch (uni) {
             case 'color':
                 gl.uniform4fv(uniform, this[uniformKey]);
@@ -76,6 +74,7 @@ export default class Shape extends ModelViewMatrix {
                     uniform,
                     false,
                     this.combineMatrices(
+                        Camera.View.matrix,
                         this.translationMatrix,
                         this.rotationMatrix,
                         this.scaleMatrix,
@@ -83,7 +82,6 @@ export default class Shape extends ModelViewMatrix {
                 );
                 break;
             case 'projection':
-                console.log(this[uniformKey]);
                 gl.uniformMatrix4fv(uniform, false, this[uniformKey]);
                 break;
             default:

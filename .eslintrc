@@ -19,6 +19,7 @@
         "shapes": true,
         "shaders": true,
         "textures": true,
-        "mat4": true
+        "Camera": true,
+        "vec": true
     }
 }

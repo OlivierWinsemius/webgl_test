@@ -63,7 +63,6 @@ export default class Matrices {
             y: y + y2,
             z: z + z2,
         };
-        console.log({ x, y, z }, { x2, y2, z2 }, this.translation);
         this.updateTranslationMatrix();
         return this;
     }
