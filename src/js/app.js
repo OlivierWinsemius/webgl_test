@@ -25,18 +25,18 @@ export default class App {
         //     .setTexture(textures.noise, 'sampler')
 
         this.rect = new shapes.Rect()
-            .setOrigin(0.5, 0.5)
-            // .scale(0.4, 0.4)
-            // .translate(-0.5, -0.5)
-            // .translate(1, 0.5)
-            // .scale(2, 2)
-            // .scaleY(0.1)
-            // .rotate(1, 0.4, 0.4)
-            // .rotateY(0.4)
-            // .rotateZ(Math.PI)
-            // .setShader(shaders.Texture())
-            // .setTexture(textures.noise, 'sampler')
-            // .scaleY(5);
+            .setOrigin(0.5, 0.5);
+        // .scale(0.4, 0.4)
+        // .translate(-0.5, -0.5)
+        // .translate(1, 0.5)
+        // .scale(2, 2)
+        // .scaleY(0.1)
+        // .rotate(1, 0.4, 0.4)
+        // .rotateY(0.4)
+        // .rotateZ(Math.PI)
+        // .setShader(shaders.Texture())
+        // .setTexture(textures.noise, 'sampler')
+        // .scaleY(5);
 
         this.update();
     }

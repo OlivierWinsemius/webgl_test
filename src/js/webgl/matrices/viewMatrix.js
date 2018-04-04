@@ -5,7 +5,7 @@ export default class ViewMatrix {
         this.forward = [0, 0, 1];
         this.position = [0, 0, 0];
 
-        this.lookAt(0.4, 0, -1);
+        this.lookAt(0, 0, -1);
 
         this.updateMatrix();
     }
