@@ -3,26 +3,30 @@ export default class ViewMatrix {
         this.right = [1, 0, 0];
         this.up = [0, 1, 0];
         this.forward = [0, 0, 1];
-        this.position = [0, 0, 0];
+        this.position = [0, 0, 100];
+        this.listeners = [];
 
-        this.lookAt(0, 0, -1);
-
+        this.lookAt(0, 0, 0);
         this.updateMatrix();
+    }
+
+    listen(callback) {
+        this.listeners.push(callback);
     }
 
     lookAt(x, y, z) {
         this.forward = vec.normal([
-            this.position[0] - x,
-            this.position[1] - y,
-            this.position[2] - z,
+            -this.position[0] + x,
+            -this.position[1] + y,
+            -this.position[2] + z,
         ]);
         this.right = vec.normal(vec.cross(this.up, this.forward));
-        this.up = vec.cross(this.forward, this.right);
-        this.position = [
-            -vec.dot(this.right, this.position),
-            -vec.dot(this.up, this.position),
-            -vec.dot(this.forward, this.position),
-        ];
+        this.up = vec.normal(vec.cross(this.forward, this.right));
+        this.position = vec.normal([
+            vec.dot(this.right, this.position),
+            vec.dot(this.up, this.position),
+            vec.dot(this.forward, this.position),
+        ]);
 
         this.updateMatrix();
         return this;
@@ -40,5 +44,6 @@ export default class ViewMatrix {
             r[2], u[2], f[2], p[2],
             0, 0, 0, 1,
         ];
+        this.listeners.forEach((func) => { func(); });
     }
 }

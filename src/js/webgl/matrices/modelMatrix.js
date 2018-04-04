@@ -61,26 +61,26 @@ export default class Matrices {
         this.translation = {
             x: x + x2,
             y: y + y2,
-            z: z + z2,
+            z: z - z2,
         };
         this.updateTranslationMatrix();
         return this;
     }
 
     rotateX(angle) {
-        this.rotation.x += (this.rotation.x + angle) % (Math.PI * 2);
+        this.rotation.x = (this.rotation.x + angle) % (Math.PI * 2);
         this.updateRotationMatrix();
         return this;
     }
 
     rotateY(angle) {
-        this.rotation.y += (this.rotation.y + angle) % (Math.PI * 2);
+        this.rotation.y = (this.rotation.y + angle) % (Math.PI * 2);
         this.updateRotationMatrix();
         return this;
     }
 
     rotateZ(angle) {
-        this.rotation.z += (this.rotation.z + angle) % (Math.PI * 2);
+        this.rotation.z = (this.rotation.z + angle) % (Math.PI * 2);
         this.updateRotationMatrix();
         return this;
     }

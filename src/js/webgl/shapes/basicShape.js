@@ -6,10 +6,11 @@ export default class Shape extends ModelMatrix {
 
         this.width = 1;
         this.height = 1;
-        this.origin = { x: 0, y: 0 };
+        this.depth = 1;
+        this.origin = { x: 0, y: 0, z: 0 };
 
         this.shader = shaders.Solid();
-        this.colorUniformData = Shape.defaultColor;
+        this.colorUniformData = [1, 1, 1, 1];
         this.textureUniformData = 0;
         this.projectionUniformData = Camera.Projection.matrix;
 
@@ -18,6 +19,7 @@ export default class Shape extends ModelMatrix {
         this.updateScaleMatrix(false);
         this.setAttributes();
         this.setUniforms();
+        Camera.View.listen((() => this.setUniform('modelView')));
     }
 
     setPositionAttributeData() {
@@ -41,10 +43,10 @@ export default class Shape extends ModelMatrix {
             gl.bindBuffer(gl.ARRAY_BUFFER, this[attributeKey]);
             switch (attrib) {
             case 'position':
-                gl.vertexAttribPointer(attribute, 2, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer(attribute, 3, gl.FLOAT, false, 0, 0);
                 break;
             case 'textureCoord':
-                gl.vertexAttribPointer(attribute, 2, gl.FLOAT, false, 0, 0);
+                gl.vertexAttribPointer(attribute, 3, gl.FLOAT, false, 0, 0);
                 break;
             default:
                 return false;
@@ -141,10 +143,11 @@ export default class Shape extends ModelMatrix {
         return this;
     }
 
-    setOrigin(x, y) {
+    setOrigin(x, y, z = 0) {
         this.origin = {
             x: -x,
             y: -y,
+            z: -z,
         };
         this.setPositionAttributeData();
         return this;

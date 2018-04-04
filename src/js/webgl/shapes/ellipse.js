@@ -13,8 +13,9 @@ export default class Ellipse extends Shape {
         const textureCoordinates = new Array(this.numVertices);
         for (let i = 0; i < this.numVertices; i += 1) {
             const j = (i / this.numVertices) * (Math.PI * 2);
-            textureCoordinates[(i * 2) + 0] = 0.5 + (Math.cos(j) / 2);
-            textureCoordinates[(i * 2) + 1] = 0.5 - (Math.sin(j) / 2);
+            textureCoordinates[(i * 3) + 0] = 0.5 + (Math.cos(j) / 2);
+            textureCoordinates[(i * 3) + 1] = 0.5 - (Math.sin(j) / 2);
+            textureCoordinates[(i * 3) + 2] = 0;
         }
         return textureCoordinates;
     }
@@ -25,8 +26,9 @@ export default class Ellipse extends Shape {
             const j = (i / this.numVertices) * (Math.PI * 2);
             const w = (Math.cos(j) * (this.width / 2)) + (this.width * 0.5);
             const h = (Math.sin(j) * (this.height / 2)) - (this.height * 0.5);
-            coordinates[(i * 2) + 0] = w + this.origin.x;
-            coordinates[(i * 2) + 1] = h - this.origin.y;
+            coordinates[(i * 3) + 0] = w + this.origin.x;
+            coordinates[(i * 3) + 1] = h - this.origin.y;
+            coordinates[(i * 3) + 2] = 0;
         }
         return coordinates;
     }

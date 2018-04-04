@@ -15,8 +15,12 @@ export const cross = (v1, v2) => {
 };
 
 export const normal = (vector) => {
-    if (vector.length > 1) {
-        const totalLength = Math.sqrt(vector.reduce((p, c) => p + (c * c)));
+    if (vector.length === 3) {
+        const totalLength = Math.sqrt((
+            (vector[0] * vector[0]) +
+            (vector[1] * vector[1]) +
+            (vector[2] * vector[2])
+        ));
         return vector.map(v => v / totalLength);
     }
     throw new Error('no valid vectors were given.', vector);
