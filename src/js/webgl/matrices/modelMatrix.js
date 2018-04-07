@@ -145,13 +145,28 @@ export default class Matrices {
         const sy = Math.sin(y);
         const sz = Math.sin(z);
 
-        this.rotationMatrix = [
-            cy * cz, cy * sz, -sy, 0,
-            (sx * sy * cz) - (cx * sz), (sx * sy * sz) + (cx * cz), sx * cy, 0,
-            (cx * sy * cz) + (sx * sz), (cx * sy * sz) - (sx * cy), cx * cy, 0,
+        const zMatrix = [
+            cz, -sz, 0, 0,
+            sz, cz, 0, 0,
+            0, 0, 1, 0,
             0, 0, 0, 1,
         ];
 
+        const xMatrix = [
+            1, 0, 0, 0,
+            0, cx, -sx, 0,
+            0, sx, cx, 0,
+            0, 0, 0, 1,
+        ];
+
+        const yMatrix = [
+            cy, 0, sy, 0,
+            0, 1, 0, 0,
+            -sy, 0, cy, 0,
+            0, 0, 0, 1,
+        ];
+
+        this.rotationMatrix = this.combineMatrices(zMatrix, yMatrix, xMatrix);
         if (update) this.setUniform('modelView');
     }
 

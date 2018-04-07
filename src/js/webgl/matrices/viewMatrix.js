@@ -6,8 +6,14 @@ export default class ViewMatrix {
         this.position = [0, 0, 100];
         this.listeners = [];
 
+        this.matrix = [
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1,
+        ];
+
         this.lookAt(0, 0, 0);
-        this.updateMatrix();
     }
 
     listen(callback) {
