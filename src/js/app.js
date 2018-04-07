@@ -21,7 +21,6 @@ export default class App {
             .setShader(shaders.Texture())
             .setTexture(textures.noise, 'sampler')
             .setOrigin(0.5, 0.5, 0.5)
-            .rotate(Math.PI / 4, Math.PI / 4)
             .translate(0, 0, 0.5);
 
         this.update();

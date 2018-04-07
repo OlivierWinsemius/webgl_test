@@ -3,8 +3,9 @@ export default class ViewMatrix {
         this.right = [1, 0, 0];
         this.up = [0, 1, 0];
         this.forward = [0, 0, 1];
-        this.position = [0, 0, 100];
+        this.position = [0, 0, 40];
         this.listeners = [];
+        this.foucsPoint = [10, 0, 0];
 
         this.matrix = [
             1, 0, 0, 0,
@@ -13,14 +14,31 @@ export default class ViewMatrix {
             0, 0, 0, 1,
         ];
 
-        this.lookAt(0, 0, 0);
+        this.lookAt(...this.foucsPoint);
     }
 
     listen(callback) {
         this.listeners.push(callback);
     }
 
+    moveTo(x, y, z) {
+        this.position = [x, y, z];
+        this.lookAt(...this.foucsPoint);
+        return this;
+    }
+
+    moveBy(x, y, z) {
+        this.position = [
+            this.position.x + x,
+            this.position.y + y,
+            this.position.z + z,
+        ];
+        this.lookAt(...this.foucsPoint);
+        return this;
+    }
+
     lookAt(x, y, z) {
+        this.focusPoint = [x, y, z];
         this.forward = vec.normal([
             -this.position[0] + x,
             -this.position[1] + y,

@@ -6,9 +6,11 @@ const loaded = ([
     { default: getTextures },
     { default: App },
     vec,
+    mat,
 ]) => {
     const canvas = document.getElementById('canvas');
     global.vec = vec;
+    global.mat = mat;
     global.gl = canvas.getContext('webgl');
     global.shapes = shapes;
     global.Camera = new Camera();
@@ -31,6 +33,7 @@ export default function start(callback) {
         import('./webgl/textures/loadTexture.js'),
         import('./App.js'),
         import('./utils/vector'),
+        import('./utils/matrix'),
     ]).then(callback);
 }
 

@@ -21,11 +21,7 @@ export default class Matrices {
         this.rotationMatrix = m;
         this.scaleMatrix = m;
 
-        this.translation = {
-            x,
-            y,
-            z,
-        };
+        this.translation = { x, y, z };
         this.rotation = {
             x: rotationX,
             y: rotationY,
@@ -166,7 +162,7 @@ export default class Matrices {
             0, 0, 0, 1,
         ];
 
-        this.rotationMatrix = this.combineMatrices(zMatrix, yMatrix, xMatrix);
+        this.rotationMatrix = mat.combineMatrices(zMatrix, yMatrix, xMatrix);
         if (update) this.setUniform('modelView');
     }
 
@@ -180,26 +176,5 @@ export default class Matrices {
         ];
 
         if (update) this.setUniform('modelView');
-    }
-
-    combineMatrices(oldMatrix, ...rest) {
-        const newMatrix = rest.shift();
-        const matrix = new Array(16);
-        for (let row = 0; row < 4; row += 1) {
-            for (let col = 0; col < 4; col += 1) {
-                matrix[(row * 4) + col] = 0;
-                for (let i = 0; i < 4; i += 1) {
-                    matrix[(row * 4) + col] += (
-                        oldMatrix[(i * 4) + col] *
-                        newMatrix[(row * 4) + i]
-                    );
-                }
-            }
-        }
-
-        if (rest.length) {
-            return this.combineMatrices(matrix, ...rest);
-        }
-        return matrix;
     }
 }

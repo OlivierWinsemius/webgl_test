@@ -75,7 +75,7 @@ export default class Shape extends ModelMatrix {
                 gl.uniformMatrix4fv(
                     uniform,
                     false,
-                    this.combineMatrices(
+                    mat.combineMatrices(
                         Camera.View.matrix,
                         this.translationMatrix,
                         this.rotationMatrix,
