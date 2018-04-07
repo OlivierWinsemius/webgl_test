@@ -109,11 +109,11 @@ export default class Matrices {
         return this;
     }
 
-    scale(x, y = 1, z = 1) {
+    scale(x, y, z) {
         this.scaling = {
             x: this.scaling.x * x,
-            y: this.scaling.y * y,
-            z: this.scaling.z * z,
+            y: this.scaling.y * (y || x),
+            z: this.scaling.z * (z || x),
         };
         this.updateScaleMatrix();
         return this;

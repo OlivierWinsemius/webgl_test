@@ -1,20 +1,13 @@
 export default class ViewMatrix {
-    constructor() {
-        this.right = [1, 0, 0];
-        this.up = [0, 1, 0];
-        this.forward = [0, 0, 1];
-        this.position = [0, 0, 40];
-        this.listeners = [];
-        this.foucsPoint = [10, 0, 0];
+    constructor(camera) {
+        this.listeners = [camera];
+        this.r = [1, 0, 0];
+        this.u = [0, 1, 0];
+        this.f = [0, 0, 1];
+        this.p = [0, 0, 40];
+        this.focus = [0, 0, 0];
 
-        this.matrix = [
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1,
-        ];
-
-        this.lookAt(...this.foucsPoint);
+        this.lookAt(...this.focus);
     }
 
     listen(callback) {
@@ -23,7 +16,7 @@ export default class ViewMatrix {
 
     moveTo(x, y, z) {
         this.position = [x, y, z];
-        this.lookAt(...this.foucsPoint);
+        this.lookAt(...this.focus);
         return this;
     }
 
@@ -33,23 +26,23 @@ export default class ViewMatrix {
             this.position.y + y,
             this.position.z + z,
         ];
-        this.lookAt(...this.foucsPoint);
+        this.lookAt(...this.focus);
         return this;
     }
 
     lookAt(x, y, z) {
         this.focusPoint = [x, y, z];
         this.forward = vec.normal([
-            -this.position[0] + x,
-            -this.position[1] + y,
-            -this.position[2] + z,
+            this.p[0] - x,
+            this.p[1] - y,
+            this.p[2] - z,
         ]);
-        this.right = vec.normal(vec.cross(this.up, this.forward));
-        this.up = vec.normal(vec.cross(this.forward, this.right));
-        this.position = vec.normal([
-            vec.dot(this.right, this.position),
-            vec.dot(this.up, this.position),
-            vec.dot(this.forward, this.position),
+        this.r = vec.normal(vec.cross(this.u, this.f));
+        this.u = vec.normal(vec.cross(this.f, this.r));
+        this.p = vec.normal([
+            vec.dot(this.r, this.p),
+            vec.dot(this.u, this.p),
+            vec.dot(this.f, this.p),
         ]);
 
         this.updateMatrix();
@@ -57,10 +50,12 @@ export default class ViewMatrix {
     }
 
     updateMatrix() {
-        const r = this.right;
-        const u = this.up;
-        const f = this.forward;
-        const p = this.position;
+        const {
+            r,
+            u,
+            f,
+            p,
+        } = this;
 
         this.matrix = [
             r[0], u[0], f[0], p[0],
@@ -68,6 +63,6 @@ export default class ViewMatrix {
             r[2], u[2], f[2], p[2],
             0, 0, 0, 1,
         ];
-        this.listeners.forEach((func) => { func(); });
+        this.listeners.forEach(l => l());
     }
 }

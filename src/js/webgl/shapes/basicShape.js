@@ -19,7 +19,8 @@ export default class Shape extends ModelMatrix {
         this.updateScaleMatrix(false);
         this.setAttributes();
         this.setUniforms();
-        Camera.View.listen((() => this.setUniform('modelView')));
+
+        Camera.listen(this);
     }
 
     setPositionAttributeData() {
@@ -84,7 +85,7 @@ export default class Shape extends ModelMatrix {
                 );
                 break;
             case 'projection':
-                gl.uniformMatrix4fv(uniform, false, this[uniformKey]);
+                gl.uniformMatrix4fv(uniform, false, Camera.Projection.matrix);
                 break;
             default:
                 return false;

@@ -21,7 +21,8 @@ export default class App {
             .setShader(shaders.Texture())
             .setTexture(textures.noise, 'sampler')
             .setOrigin(0.5, 0.5, 0.5)
-            .translate(0, 0, 0.5);
+            .translate(0, 0, 0.5)
+            .scale(0.4);
 
         this.update();
     }
@@ -34,7 +35,9 @@ export default class App {
 
     draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        this.cube.draw();
+        this.cube
+            .rotate(0.01, 0.01)
+            .draw();
     }
 
     onMouseMove(event) {

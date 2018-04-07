@@ -3,8 +3,21 @@ import ProjectionMatrix from '../matrices/projectionMatrix';
 
 export default class Camera {
     constructor() {
-        this.View = new ViewMatrix();
-        this.Projection = new ProjectionMatrix();
+        this.listeners = [];
+        this.View = new ViewMatrix(this.updateView.bind(this));
+        this.Projection = new ProjectionMatrix(this.updateProjection.bind(this));
+    }
+
+    updateView() {
+        this.listeners.forEach(l => l.setUniform('modelView'));
+    }
+
+    updateProjection() {
+        this.listeners.forEach(l => l.setUniform('projection'));
+    }
+
+    listen(shape) {
+        this.listeners.push(shape);
     }
 
     moveBy(x, y = 0, z = 0) {
