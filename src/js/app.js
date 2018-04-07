@@ -6,42 +6,71 @@ export default class App {
             gl.canvas.width = width;
             gl.canvas.height = height;
             gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
+            Camera.Projection.fitMatrixToWindow();
+        }
+    }
+
+    onMouseMove(event) {
+        this.mouseX = event.clientX / gl.canvas.clientWidth;
+        this.mouseY = event.clientY / gl.canvas.clientHeight;
+    }
+
+    onKeyDown(event) {
+        if (event.key === 'w' || event.key === 'W') {
+            Camera.moveBy(0, 0, 0.1);
+        }
+        if (event.key === 'a' || event.key === 'A') {
+            Camera.moveBy(-0.1, 0, 0);
+        }
+        if (event.key === 's' || event.key === 'S') {
+            Camera.moveBy(0, 0, -0.1);
+        }
+        if (event.key === 'd' || event.key === 'D') {
+            Camera.moveBy(0.1, 0, 0);
         }
     }
 
     constructor() {
         this.update = this.update.bind(this);
         this.onMouseMove = this.onMouseMove.bind(this);
+        this.onKeyDown = this.onKeyDown.bind(this);
         document.addEventListener('mousemove', this.onMouseMove);
+        document.addEventListener('keydown', this.onKeyDown);
 
         this.mouseX = 0;
         this.mouseY = 0;
 
-        const rows = 25;
-        const cols = 25;
-        this.cubes = new Array(rows * cols);
+        // const rows = 25;
+        // const cols = 25;
+        // this.cubes = new Array(rows * cols);
         // for (let row = 0; row < rows + 1; row += 1) {
         //     for (let col = 0; col < cols + 1; col += 1) {
         //         this.cubes[col + (row * rows)] = new shapes.Cube(
         //             (row / rows) - 0.5,
         //             (col / cols) - 0.5,
-        //             0.5,
+        //             0,
         //             0.2,
         //             0.2,
         //             0.2,
         //         )
-        //             .setShader(shaders.Texture())
+        //             .setShader(shaders.Texture)
         //             .setTexture(textures.noise, 'sampler')
         //             .scale(0.1)
         //             .setOrigin(0.5, 0.5, 0.5);
         //     }
         // }
 
-        this.ellipse = new shapes.Ellipse()
-            .setColor(1, 0, 0)
-            .setOrigin(0.5, 0.5)
-            .setResolution(1000)
-            .translateZ(-10);
+        // this.ellipse = new shapes.Ellipse()
+        //     .setColor(1, 0, 0)
+        //     .setOrigin(0.5, 0.5)
+        //     .setResolution(1000);
+        //     .translateZ(-10);
+
+        this.cube = new shapes.Cube()
+            .setOrigin(0.5, 0.5, 0.5)
+            .setShader(shaders.Texture)
+            .setTexture(textures.noise, 'sampler')
+            .scale(0.5);
 
         this.update();
     }
@@ -57,11 +86,7 @@ export default class App {
         // this.cubes.forEach((cube) => {
         //     cube.rotate(0.01, 0.02, 0.01).draw();
         // });
-        this.ellipse.draw();
-    }
-
-    onMouseMove(event) {
-        this.mouseX = event.clientX / gl.canvas.clientWidth;
-        this.mouseY = event.clientY / gl.canvas.clientHeight;
+        this.cube.rotateX(0.01).draw();
+        // this.ellipse.draw();
     }
 }

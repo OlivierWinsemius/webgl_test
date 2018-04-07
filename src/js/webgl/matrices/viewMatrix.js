@@ -1,10 +1,8 @@
 export default class ViewMatrix {
     constructor(camera) {
         this.listeners = [camera];
-        this.r = [1, 0, 0];
         this.u = [0, 1, 0];
-        this.f = [0, 0, 1];
-        this.p = [0, 0, 40];
+        this.p = [0, 0, 10];
         this.focus = [0, 0, 0];
 
         this.lookAt(...this.focus);
@@ -15,16 +13,16 @@ export default class ViewMatrix {
     }
 
     moveTo(x, y, z) {
-        this.position = [x, y, z];
+        this.p = [x, y, z];
         this.lookAt(...this.focus);
         return this;
     }
 
     moveBy(x, y, z) {
-        this.position = [
-            this.position.x + x,
-            this.position.y + y,
-            this.position.z + z,
+        this.p = [
+            this.p[0] - x,
+            this.p[1] + y,
+            this.p[2] - z,
         ];
         this.lookAt(...this.focus);
         return this;
@@ -32,37 +30,38 @@ export default class ViewMatrix {
 
     lookAt(x, y, z) {
         this.focusPoint = [x, y, z];
-        this.forward = vec.normal([
+        const f = vec.normal([
             this.p[0] - x,
             this.p[1] - y,
             this.p[2] - z,
         ]);
-        this.r = vec.normal(vec.cross(this.u, this.f));
-        this.u = vec.normal(vec.cross(this.f, this.r));
-        this.p = vec.normal([
-            vec.dot(this.r, this.p),
-            vec.dot(this.u, this.p),
-            vec.dot(this.f, this.p),
+        const r = vec.normal(vec.cross(this.u, f));
+        const u = vec.cross(f, r);
+        const p = vec.normal([
+            -vec.dot(r, this.p),
+            -vec.dot(u, this.p),
+            -vec.dot(f, this.p),
         ]);
 
-        this.updateMatrix();
+        this.updateMatrix(f, r, u, p);
         return this;
     }
 
-    updateMatrix() {
-        const {
-            r,
-            u,
-            f,
-            p,
-        } = this;
-
+    updateMatrix(f, r, u, p) {
         this.matrix = [
             r[0], u[0], f[0], p[0],
             r[1], u[1], f[1], p[1],
             r[2], u[2], f[2], p[2],
             0, 0, 0, 1,
         ];
+
+        this.matrix = [
+            r[0], r[1], r[2], 0,
+            u[0], u[1], u[2], 0,
+            f[0], f[1], f[2], 0,
+            p[0], p[1], p[2], 1,
+        ];
+
         this.listeners.forEach(l => l());
     }
 }

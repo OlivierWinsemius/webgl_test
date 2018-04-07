@@ -24,12 +24,14 @@ export default class Camera {
         this.listeners = this.listeners.filter(l => l.id !== shape.id);
     }
 
-    moveBy(x, y = 0, z = 0) {
-
+    moveBy(...rest) {
+        this.View.moveBy(...rest);
+        return this;
     }
 
     moveTo(x, y, z) {
-
+        this.View.moveTo(x, y, z);
+        return this;
     }
 
     rotateBy(x, y = 0, z = 0) {

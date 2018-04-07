@@ -10,7 +10,6 @@ export default class ProjectionMatrix {
         this.FOV = 90;
 
         this.updateMatrix = this.updateOrthographicMatrix;
-        window.addEventListener('resize', this.fitMatrixToWindow.bind(this));
         this.fitMatrixToWindow();
     }
 
