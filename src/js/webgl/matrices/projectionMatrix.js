@@ -6,8 +6,9 @@ export default class ProjectionMatrix {
         this.b = 1;
         this.t = -1;
         this.n = 0.1;
-        this.f = 100;
-        this.FOV = 90;
+        this.f = 1000;
+        this.FOV = Math.PI / 4;
+        this.aspectRatio = gl.canvas.height / gl.canvas.width;
 
         this.updateMatrix = this.updateOrthographicMatrix;
         this.fitMatrixToWindow();
@@ -24,10 +25,10 @@ export default class ProjectionMatrix {
             t,
             b,
         } = this;
-        const offsetRatio = (gl.canvas.width / gl.canvas.height / 2);
-        const l = this.l * offsetRatio;
-        const r = this.r * offsetRatio;
-        this.updateMatrix(l, r, t, b, n, f);
+        const aspectRatio = (gl.canvas.width / gl.canvas.height / 2);
+        const l = this.l * aspectRatio;
+        const r = this.r * aspectRatio;
+        this.updateMatrix(l, r, t, b, n, f, aspectRatio);
     }
 
     updateOrthographicMatrix(l, r, t, b, n, f) {
@@ -37,6 +38,27 @@ export default class ProjectionMatrix {
             0, 0, -2 / (f - n), -((f + n) / (f - n)),
             0, 0, 0, 1,
         ];
+        this.listeners.forEach(listener => listener());
+    }
+
+    updatePerspectiveMatrix(l, r, t, b, n, f, aspectRatio) {
+        // this.matrix = [
+        //     (2 * n) / (r - l), 0, (r + l) / (r - l), 0,
+        //     0, (2 * n) / (t - b), (t + b) / (t - b), 0,
+        //     0, 0, -(f + n) / (f - n), (-2 * f * n) / (f - n),
+        //     0, 0, -1, 0,
+        // ];
+
+        const fov = Math.tan(this.FOV - (0.5 * this.FOV));
+        const rangeInv = 1.0 / (n - f);
+
+        this.matrix = [
+            fov / aspectRatio, 0, 0, 0,
+            0, f, 0, 0,
+            0, 0, (n + f) * rangeInv, -1,
+            0, 0, n * f * rangeInv * 2, 0,
+        ];
+
         this.listeners.forEach(listener => listener());
     }
 }
