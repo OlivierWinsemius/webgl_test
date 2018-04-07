@@ -140,6 +140,7 @@ export default class Shape extends ModelMatrix {
 
     setColor(r, g, b, a = 1) {
         this.colorUniformData = [r, g, b, a];
+        this.setUniform('color');
         return this;
     }
 

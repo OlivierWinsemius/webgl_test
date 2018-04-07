@@ -1,12 +1,12 @@
 export default class ProjectionMatrix {
     constructor(camera) {
         this.listeners = [camera];
-        this.r = 0.5;
-        this.l = -0.5;
-        this.b = 0.5;
-        this.t = -0.5;
+        this.r = 1;
+        this.l = -1;
+        this.b = 1;
+        this.t = -1;
         this.n = 0.1;
-        this.f = 10;
+        this.f = 100;
         this.FOV = 90;
 
         this.updateMatrix = this.updateOrthographicMatrix;
@@ -19,18 +19,18 @@ export default class ProjectionMatrix {
     }
 
     fitMatrixToWindow() {
-        const w = gl.canvas.clientWidth;
-        const h = gl.canvas.clientHeight;
-        const viewportRatio = w / h;
-        const targetRatio = 16 / 9;
-        const offsetRatio = viewportRatio - targetRatio;
-        const offsetWidth = 1 + (offsetRatio / 2);
         const {
             n,
             f,
             t,
             b,
         } = this;
+        const w = gl.canvas.clientWidth;
+        const h = gl.canvas.clientHeight;
+        const viewportRatio = w / h;
+        const targetRatio = 16 / 9;
+        const offsetRatio = viewportRatio - targetRatio;
+        const offsetWidth = 1 + (offsetRatio / 2);
         const l = this.l * offsetWidth;
         const r = this.r * offsetWidth;
         this.updateMatrix(l, r, t, b, n, f);
