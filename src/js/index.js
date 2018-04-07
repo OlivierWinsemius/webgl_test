@@ -11,6 +11,7 @@ const loaded = ([
     const canvas = document.getElementById('canvas');
     global.vec = vec;
     global.mat = mat;
+    global.numShapes = 0;
     global.gl = canvas.getContext('webgl');
     global.shapes = shapes;
     global.Camera = new Camera();

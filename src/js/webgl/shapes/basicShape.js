@@ -13,6 +13,8 @@ export default class Shape extends ModelMatrix {
         this.colorUniformData = [1, 1, 1, 1];
         this.textureUniformData = 0;
         this.projectionUniformData = Camera.Projection.matrix;
+        numShapes += 1;
+        this.id = numShapes;
 
         this.updateTranslationMatrix(false);
         this.updateRotationMatrix(false);
@@ -21,6 +23,10 @@ export default class Shape extends ModelMatrix {
         this.setUniforms();
 
         Camera.listen(this);
+    }
+
+    destroy() {
+        Camera.removeListener(this);
     }
 
     setPositionAttributeData() {

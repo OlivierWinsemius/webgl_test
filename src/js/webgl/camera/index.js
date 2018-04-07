@@ -20,6 +20,10 @@ export default class Camera {
         this.listeners.push(shape);
     }
 
+    removeListener(shape) {
+        this.listeners = this.listeners.filter(l => l.id !== shape.id);
+    }
+
     moveBy(x, y = 0, z = 0) {
 
     }

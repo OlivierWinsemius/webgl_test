@@ -21,6 +21,7 @@
         "textures": true,
         "Camera": true,
         "vec": true,
-        "mat": true
+        "mat": true,
+        "numShapes": true
     }
 }
