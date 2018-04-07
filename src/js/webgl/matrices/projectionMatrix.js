@@ -25,14 +25,9 @@ export default class ProjectionMatrix {
             t,
             b,
         } = this;
-        const w = gl.canvas.clientWidth;
-        const h = gl.canvas.clientHeight;
-        const viewportRatio = w / h;
-        const targetRatio = 16 / 9;
-        const offsetRatio = viewportRatio - targetRatio;
-        const offsetWidth = 1 + (offsetRatio / 2);
-        const l = this.l * offsetWidth;
-        const r = this.r * offsetWidth;
+        const offsetRatio = (gl.canvas.width / gl.canvas.height / 2);
+        const l = this.l * offsetRatio;
+        const r = this.r * offsetRatio;
         this.updateMatrix(l, r, t, b, n, f);
     }
 
