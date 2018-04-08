@@ -90,7 +90,9 @@ export default class App {
     draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         this.cubes.forEach((cube) => {
-            cube.rotate(0.01, 0.02, 0.01).draw();
+            cube
+                // .rotate(0.01, 0.02, 0.01)
+                .draw();
         });
         // this.cube.rotateX(0.01).draw();
         this.ellipse.translateZ(0, 0, 0.01).draw();

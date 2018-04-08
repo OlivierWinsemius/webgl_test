@@ -32,11 +32,10 @@ export default class ViewMatrix {
         this.focusPoint = [x, y, z];
         const f = vec.normal([
             this.p[0] - x,
-            this.p[1] + y,
+            this.p[1] - y,
             this.p[2] - z,
         ]);
-        console.log(this.u);
-        const r = vec.normal(vec.cross(this.u, f));
+        const r = vec.normal(vec.cross(f, this.u));
         const u = vec.normal(vec.cross(f, r));
         const p = vec.normal([
             -vec.dot(r, this.p),
@@ -55,14 +54,6 @@ export default class ViewMatrix {
             r[2], u[2], f[2], p[2],
             0, 0, 0, 1,
         ];
-
-        this.matrix = [
-            r[0], r[1], r[2], 0,
-            u[0], u[1], u[2], 0,
-            f[0], f[1], f[2], 0,
-            p[0], p[1], p[2], 1,
-        ];
-
         this.listeners.forEach(l => l());
     }
 }
