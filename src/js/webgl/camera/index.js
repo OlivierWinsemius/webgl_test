@@ -29,8 +29,8 @@ export default class Camera {
         return this;
     }
 
-    moveTo(v, s) {
-        this.View.moveTo(v, s);
+    moveTo(v) {
+        this.View.moveTo(v);
         return this;
     }
 

@@ -17,22 +17,22 @@ export default class App {
 
     onKeyDown(event) {
         if (event.key === 's' || event.key === 'S') {
-            Camera.move(new Vector(0, 0, 0.1));
+            Camera.move(new Vector(0, 0, 1));
         }
         if (event.key === 'w' || event.key === 'W') {
-            Camera.move(new Vector(0, 0, -0.1));
+            Camera.move(new Vector(0, 0, -1));
         }
         if (event.key === 'a' || event.key === 'A') {
-            Camera.move(new Vector(-0.1, 0, 0));
+            Camera.move(new Vector(-1, 0, 0));
         }
         if (event.key === 'd' || event.key === 'D') {
-            Camera.move(new Vector(0.1, 0, 0));
+            Camera.move(new Vector(1, 0, 0));
         }
         if (event.key === 'Shift') {
-            Camera.move(new Vector(0, -0.1, 0));
+            Camera.move(new Vector(0, -1, 0));
         }
         if (event.key === ' ') {
-            Camera.move(new Vector(0, 0.1, 0));
+            Camera.move(new Vector(0, 1, 0));
         }
     }
 
@@ -44,12 +44,20 @@ export default class App {
         document.addEventListener('keydown', this.onKeyDown);
         this.mouseX = 0;
         this.mouseY = 0;
+
+        this.ellipse = new shapes.Ellipse()
+            .translate(0, 0, -10)
+            .setOrigin(0.5, 0.5)
+            .scale(10)
+            .setColor(1, 0, 0);
         this.cube = new shapes.Cube()
             .rotate(Math.PI / 4)
             .setOrigin(0.5, 0.5, 0.5)
             .setShader(shaders.Texture)
             .setTexture(textures.noise, 'sampler');
         this.update();
+
+        Camera.moveTo(new Vector(10, 10, 10));
     }
 
     update() {
@@ -63,5 +71,6 @@ export default class App {
         this.cube
             .rotate(0.01, 0.01)
             .draw();
+        this.ellipse.draw();
     }
 }
