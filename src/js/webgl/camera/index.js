@@ -24,25 +24,17 @@ export default class Camera {
         this.listeners = this.listeners.filter(l => l.id !== shape.id);
     }
 
-    moveBy(...rest) {
-        this.View.moveBy(...rest);
+    move(v) {
+        this.View.move(v);
         return this;
     }
 
-    moveTo(x, y, z) {
-        this.View.moveTo(x, y, z);
+    moveTo(v, s) {
+        this.View.moveTo(v, s);
         return this;
     }
 
-    rotateBy(x, y = 0, z = 0) {
-
-    }
-
-    rotateTo(x, y, z) {
-
-    }
-
-    setFOV(value) {
-
+    setFoV(value) {
+        this.Projection.setFoV(value);
     }
 }

@@ -5,12 +5,12 @@ const loaded = ([
     { default: textureFiles },
     { default: getTextures },
     { default: App },
-    vec,
-    mat,
+    { default: Vector },
+    { default: Matrix },
 ]) => {
     const canvas = document.getElementById('canvas');
-    global.vec = vec;
-    global.mat = mat;
+    global.Vector = Vector;
+    global.Matrix = Matrix;
     global.numShapes = 0;
     global.gl = canvas.getContext('webgl');
     global.shapes = shapes;

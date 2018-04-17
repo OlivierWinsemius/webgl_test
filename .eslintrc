@@ -20,8 +20,8 @@
         "shaders": true,
         "textures": true,
         "Camera": true,
-        "vec": true,
-        "mat": true,
+        "Vector": true,
+        "Matrix": true,
         "numShapes": true
     }
 }

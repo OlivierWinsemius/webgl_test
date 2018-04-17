@@ -16,9 +16,6 @@ export default class Shape extends ModelMatrix {
         numShapes += 1;
         this.id = numShapes;
 
-        this.updateTranslationMatrix(false);
-        this.updateRotationMatrix(false);
-        this.updateScaleMatrix(false);
         this.setAttributes();
         this.setUniforms();
 
@@ -82,16 +79,16 @@ export default class Shape extends ModelMatrix {
                 gl.uniformMatrix4fv(
                     uniform,
                     false,
-                    mat.combineMatrices(
-                        Camera.View.matrix,
-                        this.translationMatrix,
-                        this.rotationMatrix,
-                        this.scaleMatrix,
-                    ),
+                    new Matrix()
+                        .multiply(Camera.View.matrix)
+                        .multiply(this.translationMatrix)
+                        .multiply(this.rotationMatrix)
+                        .multiply(this.scaleMatrix)
+                        .value,
                 );
                 break;
             case 'projection':
-                gl.uniformMatrix4fv(uniform, false, Camera.Projection.matrix);
+                gl.uniformMatrix4fv(uniform, false, Camera.Projection.matrix.value);
                 break;
             default:
                 return false;

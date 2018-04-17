@@ -1,17 +1,13 @@
 export default class ProjectionMatrix {
     constructor(camera) {
-        this.listeners = [camera];
-        this.r = 1;
-        this.l = -1;
-        this.b = 1;
-        this.t = -1;
-        this.n = 0.1;
-        this.f = 1000;
-        this.FOV = Math.PI / 4;
-        this.aspectRatio = gl.canvas.height / gl.canvas.width;
+        this.FoV = Math.PI / 4;
+        this.aspect = gl.canvas.width / gl.canvas.height;
 
-        this.updateMatrix = this.updateOrthographicMatrix;
-        this.fitMatrixToWindow();
+        this.listeners = [camera];
+        // this.update = this.updateOrtho;
+        this.update = this.updatePersp;
+
+        this.update();
     }
 
     listen(callback) {
@@ -19,46 +15,24 @@ export default class ProjectionMatrix {
     }
 
     fitMatrixToWindow() {
-        const {
-            n,
-            f,
-            t,
-            b,
-        } = this;
-        const aspectRatio = (gl.canvas.width / gl.canvas.height / 2);
-        const l = this.l * aspectRatio;
-        const r = this.r * aspectRatio;
-        this.updateMatrix(l, r, t, b, n, f, aspectRatio);
+        this.aspect = (gl.canvas.width / gl.canvas.height);
+        this.update();
+        this.listeners.forEach(l => l());
     }
 
-    updateOrthographicMatrix(l, r, t, b, n, f) {
-        this.matrix = [
-            2 / (r - l), 0, 0, -((r + l) / (r - l)),
-            0, 2 / (t - n), 0, -((t + b) / (t - b)),
-            0, 0, -2 / (f - n), -((f + n) / (f - n)),
-            0, 0, 0, 1,
-        ];
-        this.listeners.forEach(listener => listener());
+    setFoV(value) {
+        this.FoV = value;
+        this.update();
+        this.listeners.forEach(l => l());
     }
 
-    updatePerspectiveMatrix(l, r, t, b, n, f, aspectRatio) {
-        // this.matrix = [
-        //     (2 * n) / (r - l), 0, (r + l) / (r - l), 0,
-        //     0, (2 * n) / (t - b), (t + b) / (t - b), 0,
-        //     0, 0, -(f + n) / (f - n), (-2 * f * n) / (f - n),
-        //     0, 0, -1, 0,
-        // ];
+    updateOrtho() {
+        const { aspect } = this;
+        this.matrix = new Matrix().ortho(-aspect, aspect, -1, 1, 0.01, 1000);
+    }
 
-        const fov = Math.tan(this.FOV - (0.5 * this.FOV));
-        const rangeInv = 1.0 / (n - f);
-
-        this.matrix = [
-            fov / aspectRatio, 0, 0, 0,
-            0, f, 0, 0,
-            0, 0, (n + f) * rangeInv, -1,
-            0, 0, n * f * rangeInv * 2, 0,
-        ];
-
-        this.listeners.forEach(listener => listener());
+    updatePersp() {
+        const { FoV, aspect } = this;
+        this.matrix = new Matrix().persp(FoV, aspect, 0.01, 100);
     }
 }

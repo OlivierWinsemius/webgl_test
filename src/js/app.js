@@ -16,23 +16,23 @@ export default class App {
     }
 
     onKeyDown(event) {
-        if (event.key === 'w' || event.key === 'W') {
-            Camera.moveBy(0, 0, 0.1);
-        }
         if (event.key === 's' || event.key === 'S') {
-            Camera.moveBy(0, 0, -0.1);
+            Camera.move(new Vector(0, 0, 0.1));
+        }
+        if (event.key === 'w' || event.key === 'W') {
+            Camera.move(new Vector(0, 0, -0.1));
         }
         if (event.key === 'a' || event.key === 'A') {
-            Camera.moveBy(-0.1, 0, 0);
+            Camera.move(new Vector(-0.1, 0, 0));
         }
         if (event.key === 'd' || event.key === 'D') {
-            Camera.moveBy(0.1, 0, 0);
+            Camera.move(new Vector(0.1, 0, 0));
         }
         if (event.key === 'Shift') {
-            Camera.moveBy(0, -0.1, 0);
+            Camera.move(new Vector(0, -0.1, 0));
         }
         if (event.key === ' ') {
-            Camera.moveBy(0, 0.1, 0);
+            Camera.move(new Vector(0, 0.1, 0));
         }
     }
 
@@ -42,42 +42,13 @@ export default class App {
         this.onKeyDown = this.onKeyDown.bind(this);
         document.addEventListener('mousemove', this.onMouseMove);
         document.addEventListener('keydown', this.onKeyDown);
-
         this.mouseX = 0;
         this.mouseY = 0;
-
-        const rows = 5;
-        const cols = 5;
-        this.cubes = new Array(rows * cols);
-        for (let row = 0; row < rows; row += 1) {
-            for (let col = 0; col < cols; col += 1) {
-                this.cubes[col + (row * rows)] = new shapes.Cube(
-                    (row / rows) - 0.5,
-                    (col / cols),
-                    0,
-                    0.2,
-                    0.2,
-                    0.2,
-                )
-                    .setShader(shaders.Texture)
-                    .setTexture(textures.noise, 'sampler')
-                    .scale(0.1)
-                    .setOrigin(0.5, 0.5, 0.5);
-            }
-        }
-
-        this.ellipse = new shapes.Ellipse()
-            .setColor(1, 0, 0)
-            .setOrigin(0.5, 0.5)
-            .setResolution(1000)
-            .translateZ(-10);
-
         this.cube = new shapes.Cube()
+            .rotate(Math.PI / 4)
             .setOrigin(0.5, 0.5, 0.5)
             .setShader(shaders.Texture)
-            .setTexture(textures.noise, 'sampler')
-            .scale(0.5);
-
+            .setTexture(textures.noise, 'sampler');
         this.update();
     }
 
@@ -89,12 +60,8 @@ export default class App {
 
     draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        this.cubes.forEach((cube) => {
-            cube
-                // .rotate(0.01, 0.02, 0.01)
-                .draw();
-        });
-        // this.cube.rotateX(0.01).draw();
-        this.ellipse.translateZ(0, 0, 0.01).draw();
+        this.cube
+            .rotate(0.01, 0.01)
+            .draw();
     }
 }
