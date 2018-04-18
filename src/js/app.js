@@ -16,32 +16,61 @@ export default class App {
     }
 
     onKeyDown(event) {
-        if (event.key === 's' || event.key === 'S') {
-            Camera.move(new Vector(0, 0, 1));
+        switch (event.key) {
+        case 's':
+        case 'S':
+            Camera.move(0, 0, 1);
+            break;
+        case 'w':
+        case 'W':
+            Camera.move(0, 0, -1);
+            break;
+        case 'a':
+        case 'A':
+            Camera.move(-1, 0, 0);
+            break;
+        case 'd':
+        case 'D':
+            Camera.move(1, 0, 0);
+            break;
+        case 'Shift':
+            Camera.move(0, 1, 0);
+            break;
+        case ' ':
+            Camera.move(0, -1, 0);
+            break;
+        default:
+            break;
         }
-        if (event.key === 'w' || event.key === 'W') {
-            Camera.move(new Vector(0, 0, -1));
-        }
-        if (event.key === 'a' || event.key === 'A') {
-            Camera.move(new Vector(-1, 0, 0));
-        }
-        if (event.key === 'd' || event.key === 'D') {
-            Camera.move(new Vector(1, 0, 0));
-        }
-        if (event.key === 'Shift') {
-            Camera.move(new Vector(0, -1, 0));
-        }
-        if (event.key === ' ') {
-            Camera.move(new Vector(0, 1, 0));
+    }
+
+    onKeyUp(event) {
+        switch (event.key) {
+        case 's':
+        case 'S':
+        case 'w':
+        case 'W':
+            Camera.stop('z');
+            break;
+        case 'a':
+        case 'A':
+        case 'd':
+        case 'D':
+            Camera.stop('x');
+            break;
+        case 'Shift':
+        case ' ':
+            Camera.stop('y');
+            break;
+        default:
+            break;
         }
     }
 
     constructor() {
-        this.update = this.update.bind(this);
-        this.onMouseMove = this.onMouseMove.bind(this);
-        this.onKeyDown = this.onKeyDown.bind(this);
-        document.addEventListener('mousemove', this.onMouseMove);
-        document.addEventListener('keydown', this.onKeyDown);
+        document.addEventListener('mousemove', this.onMouseMove.bind(this));
+        document.addEventListener('keydown', this.onKeyDown.bind(this));
+        document.addEventListener('keyup', this.onKeyUp.bind(this));
         this.mouseX = 0;
         this.mouseY = 0;
 
@@ -57,13 +86,13 @@ export default class App {
             .setTexture(textures.noise, 'sampler');
         this.update();
 
-        Camera.moveTo(new Vector(10, 10, 10));
+        setTimeout(() => Camera.moveTo(2, 0, 2), 1000);
     }
 
     update() {
         App.onResize();
         this.draw();
-        requestAnimationFrame(this.update);
+        requestAnimationFrame(this.update.bind(this));
     }
 
     draw() {
