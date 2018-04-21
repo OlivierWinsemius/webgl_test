@@ -12,7 +12,7 @@ export default class Shape extends ModelMatrix {
         this.shader = shaders.Solid();
         this.colorUniformData = [1, 1, 1, 1];
         this.textureUniformData = 0;
-        this.projectionUniformData = Camera.Projection.matrix;
+        this.projectionUniformData = Camera.ProjectionMatrix;
         numShapes += 1;
         this.id = numShapes;
 
@@ -80,7 +80,7 @@ export default class Shape extends ModelMatrix {
                     uniform,
                     false,
                     new Matrix()
-                        .multiply(Camera.View.matrix)
+                        .multiply(Camera.ViewMatrix)
                         .multiply(this.translationMatrix)
                         .multiply(this.rotationMatrix)
                         .multiply(this.scaleMatrix)
@@ -88,7 +88,7 @@ export default class Shape extends ModelMatrix {
                 );
                 break;
             case 'projection':
-                gl.uniformMatrix4fv(uniform, false, Camera.Projection.matrix.value);
+                gl.uniformMatrix4fv(uniform, false, Camera.ProjectionMatrix.value);
                 break;
             default:
                 return false;

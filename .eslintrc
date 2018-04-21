@@ -22,6 +22,7 @@
         "Camera": true,
         "Vector": true,
         "Matrix": true,
-        "numShapes": true
+        "numShapes": true,
+        "App": true
     }
 }

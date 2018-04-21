@@ -14,15 +14,14 @@ const loaded = ([
     global.numShapes = 0;
     global.gl = canvas.getContext('webgl');
     global.shapes = shapes;
-    global.Camera = new Camera();
     global.shaders = getShaders();
     global.textures = getTextures(textureFiles);
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     gl.clearDepth(1.0);
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
-    const app = new App();
-    return app;
+    global.Camera = new Camera();
+    global.App = new App();
 };
 
 export default function start(callback) {
