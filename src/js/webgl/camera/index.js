@@ -1,17 +1,13 @@
 export default class Camera {
     constructor() {
         this.listeners = [];
-
         this.velocity = new Vector();
         this.targetVelocity = this.velocity.duplicate();
-
         this.eye = new Vector(0, 0, 2);
         this.eyeTarget = this.eye.duplicate();
         this.up = new Vector(0, 1, 0);
         this.target = new Vector(0, 0, 0);
-
         this.ViewMatrix = new Matrix().lookAt(this.eye, this.target, this.up);
-
         this.FoV = Math.PI / 4;
         this.aspect = this.width / this.height;
         this.updateProjectionType = this.updatePersp;
@@ -32,12 +28,14 @@ export default class Camera {
 
     update() {
         this.onResize();
-        if (App.keys[65]) { this.move(new Vector(-0.1, 0, 0)); }
-        if (App.keys[68]) { this.move(new Vector(0.1, 0, 0)); }
-        if (App.keys[87]) { this.move(new Vector(0, 0, -0.1)); }
-        if (App.keys[83]) { this.move(new Vector(0, 0, 0.1)); }
-        if (App.keys[16]) { this.move(new Vector(0, -0.1, 0)); }
-        if (App.keys[32]) { this.move(new Vector(0, 0.1, 0)); }
+        const movement = new Vector();
+        if (App.keys[65]) { movement.add(new Vector(-0.1, 0, 0)); }
+        if (App.keys[68]) { movement.add(new Vector(0.1, 0, 0)); }
+        if (App.keys[87]) { movement.add(new Vector(0, 0, -0.1)); }
+        if (App.keys[83]) { movement.add(new Vector(0, 0, 0.1)); }
+        if (App.keys[16]) { movement.add(new Vector(0, -0.1, 0)); }
+        if (App.keys[32]) { movement.add(new Vector(0, 0.1, 0)); }
+        this.move(movement);
         this.velocity.lerp(this.targetVelocity, 0.1);
         this.targetVelocity.scale(0.5);
         this.eyeTarget.add(this.velocity);

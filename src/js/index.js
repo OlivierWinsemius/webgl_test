@@ -1,3 +1,5 @@
+require('../style/styles.scss');
+
 const loaded = ([
     { default: getShaders },
     { default: shapes },
