@@ -73,6 +73,7 @@ export default class Camera {
         this.listeners = this.listeners.filter(l => l.id !== shape.id);
     }
 
+<<<<<<< HEAD
     move(v) {
         this.targetVelocity = v;
         return this;
@@ -80,6 +81,30 @@ export default class Camera {
 
     moveTo(v) {
         this.eyeTarget = v.duplicate();
+=======
+    move(x, y, z) {
+        this.velocityTarget = new Vector(
+            x || this.velocity.x,
+            y || this.velocity.y,
+            z || this.velocity.z,
+        );
+        return this;
+    }
+
+    stop(v) {
+        const { x, y, z } = this.velocityTarget;
+        this.velocityTarget = new Vector(
+            v === 'x' ? 0 : x,
+            v === 'y' ? 0 : y,
+            v === 'z' ? 0 : z,
+        );
+        console.log(v, this.velocityTarget);
+    }
+
+    moveTo(x, y, z) {
+        console.log(x, y, z);
+        this.View.eyeTarget = new Vector(x, y, z);
+>>>>>>> 33cc50251cbe875ac135d292018de1bc527b9d29
         return this;
     }
 
