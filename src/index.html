@@ -4,22 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon"> 
+    <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon">
     <title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
     <canvas id="canvas"></canvas>
-    <div id="webgl_settings">
-        <button><h3>Camera</h3></button><br />
-        <form oninput="camPosXOut.value=camPosXRange.value; camPosYOut.value=camPosYRange.value" name="camera">
-            <input type="radio" name="cameraType" id="persp" value="persp" checked /><label for="persp"> Perspective</label><br />
-            <input type="radio" name="cameraType" id="ortho" value="ortho" /><label for="ortho"> Orthographic</label><br />
-            <input type="range" name="FoV" id="FoV" /><label for="FoV"> Field of View</label><br />
-            <input id="camPosXRange" name="camPosXRange" value="30" type="range" orient="vertical">
-            <output id="camPosXOut" name="camPosXOut"></output>
-            <input id="camPosYRange" name="camPosYRange" value="30" type="range" orient="vertical">
-            <output id="camPosYOut" name="camPosYOut"></output>
-        </form>
-    </div>
 </body>
 </html>
