@@ -101,7 +101,7 @@ export default class Vector {
         return this;
     }
 
-    lerp(v, t) {
+    lerpTo(v, t) {
         return this.add(v.diff(this).scale(t));
     }
 
