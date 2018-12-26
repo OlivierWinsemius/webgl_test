@@ -19,48 +19,25 @@ export default class App {
         switch (event.key) {
         case 's':
         case 'S':
-            Camera.move(0, 0, 1);
+            Camera.moveBy(new Vector(0, 0, 1));
             break;
         case 'w':
         case 'W':
-            Camera.move(0, 0, -1);
+            Camera.moveBy(new Vector(0, 0, -1));
             break;
         case 'a':
         case 'A':
-            Camera.move(-1, 0, 0);
+            Camera.moveBy(new Vector(-1, 0, 0));
             break;
         case 'd':
         case 'D':
-            Camera.move(1, 0, 0);
+            Camera.moveBy(new Vector(1, 0, 0));
             break;
         case 'Shift':
-            Camera.move(0, 1, 0);
+            Camera.moveBy(new Vector(0, 1, 0));
             break;
         case ' ':
-            Camera.move(0, -1, 0);
-            break;
-        default:
-            break;
-        }
-    }
-
-    onKeyUp(event) {
-        switch (event.key) {
-        case 's':
-        case 'S':
-        case 'w':
-        case 'W':
-            Camera.stop('z');
-            break;
-        case 'a':
-        case 'A':
-        case 'd':
-        case 'D':
-            Camera.stop('x');
-            break;
-        case 'Shift':
-        case ' ':
-            Camera.stop('y');
+            Camera.moveBy(new Vector(0, -1, 0));
             break;
         default:
             break;
@@ -70,7 +47,6 @@ export default class App {
     constructor() {
         document.addEventListener('mousemove', this.onMouseMove.bind(this));
         document.addEventListener('keydown', this.onKeyDown.bind(this));
-        document.addEventListener('keyup', this.onKeyUp.bind(this));
         this.mouseX = 0;
         this.mouseY = 0;
 
@@ -86,7 +62,7 @@ export default class App {
             .setTexture(textures.noise, 'sampler');
         this.update();
 
-        setTimeout(() => Camera.moveTo(2, 0, 2), 1000);
+        setTimeout(() => Camera.moveTo(new Vector(2, 0, 2)), 1000);
     }
 
     update() {

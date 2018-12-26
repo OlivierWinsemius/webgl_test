@@ -56,7 +56,7 @@ export default class Matrix {
         const x = up.cross(z).normal;
         const y = z.cross(x).normal;
 
-        return this.multiply(new Matrix([
+        return this.reset().multiply(new Matrix([
             x.x, y.x, z.x, 0,
             x.y, y.y, z.y, 0,
             x.z, y.z, z.z, 0,

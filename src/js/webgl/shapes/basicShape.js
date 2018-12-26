@@ -9,12 +9,12 @@ export default class Shape extends ModelMatrix {
         this.depth = 1;
         this.origin = { x: 0, y: 0, z: 0 };
 
+        shapesCounter += 1;
+        this.id = shapesCounter;
         this.shader = shaders.Solid();
         this.colorUniformData = [1, 1, 1, 1];
         this.textureUniformData = 0;
         this.projectionUniformData = Camera.Projection.matrix;
-        numShapes += 1;
-        this.id = numShapes;
 
         this.setAttributes();
         this.setUniforms();

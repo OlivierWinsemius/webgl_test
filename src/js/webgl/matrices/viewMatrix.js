@@ -1,29 +1,35 @@
 export default class ViewMatrix {
-    constructor(camera) {
-        this.listeners = [camera];
-        this.eye = new Vector(0, 0, 2);
-        this.eyeTarget = this.eye.duplicate();
-        this.up = new Vector(0, 1, 0);
-        this.target = new Vector(0, 0, 0);
-        this.matrix = new Matrix().lookAt(this.eye, this.target, this.up);
+    constructor() {
+        this.eyePosition = new Vector(0, 0, 2);
+        this.viewTarget = new Vector(0, 0, 0);
+        this.upDirection = new Vector(0, 1, 0);
+        this.matrix = new Matrix();
         this.update();
     }
 
-    listen(callback) {
-        this.listeners.push(callback);
+    moveTo(position) {
+        this.eyePosition = position;
+        this.update();
+        return this;
+    }
+
+    moveBy(velocity) {
+        this.eyePosition.add(velocity);
+        this.update();
+        return this;
+    }
+
+    lookAt(position) {
+        this.lookAt = position;
+        this.update();
+        return this;
     }
 
     update() {
-        if (this.eye.diff(this.eyeTarget).magnitude > 0.1) {
-            this.lerpTo(this.eyeTarget, 0.1);
-        }
-        requestAnimationFrame(this.update.bind(this));
-    }
-
-    lerpTo(v, s) {
-        this.eye.lerp(v, s);
-        this.matrix = new Matrix().lookAt(this.eye, this.target, this.up);
-        this.listeners.forEach(l => l());
-        return this;
+        this.matrix.lookAt(
+            this.eyePosition,
+            this.viewTarget,
+            this.upDirection,
+        );
     }
 }

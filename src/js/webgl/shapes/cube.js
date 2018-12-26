@@ -26,21 +26,24 @@ export default class Cube extends RenderObject {
     }
 
     getVertexCoordinates() {
+        const { x, y, z } = this.origin;
+        const { width: w, height: h, depth: d } = this;
+
         return [
-            this.origin.x, -this.origin.y - this.height, this.origin.z,
-            this.origin.x + this.width, -this.origin.y - this.height, this.origin.z,
-            this.origin.x, -this.origin.y, this.origin.z,
-            this.origin.x + this.width, -this.origin.y, this.origin.z,
-            this.origin.x + this.width, -this.origin.y, this.origin.z + this.depth,
-            this.origin.x + this.width, -this.origin.y - this.height, this.origin.z,
-            this.origin.x + this.width, -this.origin.y - this.height, this.origin.z + this.depth,
-            this.origin.x, -this.origin.y - this.height, this.origin.z,
-            this.origin.x, -this.origin.y - this.height, this.origin.z + this.depth,
-            this.origin.x, -this.origin.y, this.origin.z,
-            this.origin.x, -this.origin.y, this.origin.z + this.depth,
-            this.origin.x + this.width, -this.origin.y, this.origin.z + this.depth,
-            this.origin.x, -this.origin.y - this.height, this.origin.z + this.depth,
-            this.origin.x + this.width, -this.origin.y - this.height, this.origin.z + this.depth,
+            x + 0, -y - h, z + 0,
+            x + w, -y - h, z + 0,
+            x + 0, -y + 0, z + 0,
+            x + w, -y + 0, z + 0,
+            x + w, -y + 0, z + d,
+            x + w, -y - h, z + 0,
+            x + w, -y - h, z + d,
+            x + 0, -y - h, z + 0,
+            x + 0, -y - h, z + d,
+            x + 0, -y + 0, z + 0,
+            x + 0, -y + 0, z + d,
+            x + w, -y + 0, z + d,
+            x + 0, -y - h, z + d,
+            x + w, -y - h, z + d,
         ];
     }
 

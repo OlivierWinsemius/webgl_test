@@ -22,6 +22,6 @@
         "Camera": true,
         "Vector": true,
         "Matrix": true,
-        "numShapes": true
+        "shapesCounter": true
     }
 }

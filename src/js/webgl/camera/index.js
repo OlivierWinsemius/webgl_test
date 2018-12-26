@@ -4,16 +4,26 @@ import ProjectionMatrix from '../matrices/projectionMatrix';
 export default class Camera {
     constructor() {
         this.listeners = [];
-        this.View = new ViewMatrix(this.updateView.bind(this));
-        this.Projection = new ProjectionMatrix(this.updateProjection.bind(this));
-        this.velocity = new Vector();
-        this.velocityTarget = new Vector();
+        this.View = new ViewMatrix();
+        this.Projection = new ProjectionMatrix();
+
+        this.position = this.View.eyePosition.duplicate();
+        this.targetPosition = this.View.eyePosition.duplicate();
+
         this.update();
     }
 
     update() {
-        this.velocity.lerp(this.velocityTarget, 0.1);
-        this.View.eyeTarget.add(this.velocity);
+        const velocity = this.position.diff(this.targetPosition).magnitude;
+        if (velocity > 0) {
+            if (velocity < 0.01) {
+                this.position = this.targetPosition;
+            } else {
+                this.position.lerp(this.targetPosition, 0.1);
+            }
+            this.View.moveTo(this.position);
+            this.updateView();
+        }
         requestAnimationFrame(this.update.bind(this));
     }
 
@@ -33,28 +43,13 @@ export default class Camera {
         this.listeners = this.listeners.filter(l => l.id !== shape.id);
     }
 
-    move(x, y, z) {
-        this.velocityTarget = new Vector(
-            x || this.velocity.x,
-            y || this.velocity.y,
-            z || this.velocity.z,
-        );
+    moveBy(v) {
+        this.targetPosition.add(v);
         return this;
     }
 
-    stop(v) {
-        const { x, y, z } = this.velocityTarget;
-        this.velocityTarget = new Vector(
-            v === 'x' ? 0 : x,
-            v === 'y' ? 0 : y,
-            v === 'z' ? 0 : z,
-        );
-        console.log(v, this.velocityTarget);
-    }
-
-    moveTo(x, y, z) {
-        console.log(x, y, z);
-        this.View.eyeTarget = new Vector(x, y, z);
+    moveTo(position) {
+        this.targetPosition = position;
         return this;
     }
 
