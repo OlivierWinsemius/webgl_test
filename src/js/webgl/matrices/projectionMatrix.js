@@ -2,6 +2,7 @@ export default class ProjectionMatrix {
     constructor() {
         this.FoV = Math.PI / 4;
         this.aspect = gl.canvas.width / gl.canvas.height;
+        this.matrix = new Matrix();
 
         // this.update = this.setOrthographicMatrix;
         this.reconfigureMatrix = this.setPerspectiveMatrix;
@@ -10,6 +11,7 @@ export default class ProjectionMatrix {
 
     fitMatrixToWindow() {
         this.aspect = (gl.canvas.width / gl.canvas.height);
+        console.log(this.aspect);
         this.reconfigureMatrix();
         return this;
     }
@@ -28,13 +30,11 @@ export default class ProjectionMatrix {
 
     setOrthographicMatrix() {
         const { aspect } = this;
-        this.matrix = new Matrix();
-        this.matrix.ortho(-aspect, aspect, -1, 1, 0.01, 1000);
+        this.matrix.reset().ortho(-aspect, aspect, -1, 1, 0.01, 1000);
     }
 
     setPerspectiveMatrix() {
         const { FoV, aspect } = this;
-        this.matrix = new Matrix();
-        this.matrix.persp(FoV, aspect, 0.01, 100);
+        this.matrix.reset().persp(FoV, aspect, 0.01, 100);
     }
 }

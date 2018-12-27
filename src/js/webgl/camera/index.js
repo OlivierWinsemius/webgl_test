@@ -13,6 +13,11 @@ export default class Camera {
         this.update();
     }
 
+    onResize() {
+        this.Projection.fitMatrixToWindow();
+        this.updateProjection();
+    }
+
     update() {
         const velocity = this.position.diff(this.targetPosition).magnitude;
         if (velocity > 0) {

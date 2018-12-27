@@ -6,7 +6,7 @@ export default class App {
             gl.canvas.width = width;
             gl.canvas.height = height;
             gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-            Camera.Projection.fitMatrixToWindow();
+            Camera.onResize();
         }
     }
 
