@@ -41,5 +41,6 @@ export default function start(callback) {
 start(loaded);
 
 if (module.hot) {
+    Camera.destroy();
     module.hot.accept();
 }

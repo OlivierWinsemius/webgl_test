@@ -32,6 +32,10 @@ export default class Camera {
         requestAnimationFrame(this.update.bind(this));
     }
 
+    destroy() {
+        this.listeners.forEach(l => l.destroy());
+    }
+
     updateView() {
         this.listeners.forEach(l => l.setUniform('modelView'));
     }

@@ -34,7 +34,7 @@ export default class Matrix {
     persp(FoV, aspect, zNear, zFar) {
         const f = 1.0 / Math.tan(FoV);
         const nf = 1.0 / (zFar - zNear);
-        return this.multiply(new Matrix([
+        return this.reset().multiply(new Matrix([
             f / aspect, 0, 0, 0,
             0, f, 0, 0,
             0, 0, -(zFar + zNear) * nf, -1,
@@ -43,7 +43,7 @@ export default class Matrix {
     }
 
     ortho(l, r, b, t, n, f) {
-        return this.multiply(new Matrix([
+        return this.reset().multiply(new Matrix([
             2 / (r - l), 0, 0, 0,
             0, 2 / (t - b), 0, 0,
             0, 0, -2 / (f - n), 0,
