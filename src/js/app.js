@@ -59,10 +59,9 @@ export default class App {
             .rotate(Math.PI / 4)
             .setOrigin(0.5, 0.5, 0.5)
             .setShader(shaders.Texture)
-            .setTexture(textures.noise, 'sampler');
-        this.update();
+            .setTexture(textures.noise);
 
-        setTimeout(() => Camera.moveTo(new Vector(2, 0, 2)), 1000);
+        this.update();
     }
 
     update() {
