@@ -14,18 +14,6 @@ export default class App {
         this.mouseX = 0;
         this.mouseY = 0;
 
-        this.ellipse = new shapes.Ellipse()
-            .translate(0, 0, -10)
-            .setOrigin(0.5, 0.5)
-            .scale(10)
-            .setColor(1, 0, 0);
-
-        this.rect = new shapes.Rect()
-            .rotate(Math.PI / 4)
-            .setOrigin(0.5, 0.5, 0.5)
-            .setShader(shaders.Texture)
-            .setTexture(textures.noise);
-
         this.update();
     }
 
@@ -36,12 +24,6 @@ export default class App {
     }
 
     draw() {
-        // gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
-        this.ellipse.draw();
-
-        this.rect
-            .rotate(-0.01, 0.01)
-            .draw();
+        gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     }
 }
