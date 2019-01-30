@@ -45,6 +45,7 @@
   "dependencies": {
     "gl-matrix": "^2.4.0",
     "gpx-loader": "^0.1.1",
-    "togeojson": "^0.16.0"
+    "togeojson": "^0.16.0",
+    "xml-loader": "^1.2.1"
   }
 }

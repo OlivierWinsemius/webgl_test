@@ -42,6 +42,12 @@ module.exports = {
                     },
                 }],
             },
+            {
+                test: /\.gpx$/,
+                use: [{
+                    loader: 'xml-loader',
+                }],
+            },
         ],
     },
 
