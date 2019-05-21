@@ -18,8 +18,8 @@ export default class App {
         this.keys = [];
         this.mousePos = { x: 0, y: 0 };
         document.addEventListener('mousemove', this.onMouseMove.bind(this));
-        document.addEventListener('keydown', this.onKeyDown.bind(this));
-        document.addEventListener('keyup', this.onKeyUp.bind(this));
+        // document.addEventListener('keydown', this.onKeyDown.bind(this));
+        // document.addEventListener('keyup', this.onKeyUp.bind(this));
         this.canvas = new shapes.Plane()
             .setOrigin(0.5, 0.5)
             .setShader(shaders.Texture)
