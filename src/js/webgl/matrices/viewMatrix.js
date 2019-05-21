@@ -24,11 +24,7 @@ export default class ViewMatrix {
     move(velocity) {
         this.eyePosition.add(velocity);
 
-        this.matrix.lookAt(
-            this.eyePosition,
-            this.lookAt,
-            this.upDirection,
-        );
+        this.matrix = new Matrix().lookAt(this.eyePosition, this.lookAt, this.upDirection);
         return this;
     }
 
