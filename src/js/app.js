@@ -20,8 +20,9 @@ export default class App {
         document.addEventListener('mousemove', this.onMouseMove.bind(this));
         document.addEventListener('keydown', this.onKeyDown.bind(this));
         document.addEventListener('keyup', this.onKeyUp.bind(this));
-        this.sphere = new shapes.Sphere()
-            .setOrigin(0.5, 0.5);
+        this.canvas = new shapes.Plane()
+            .setOrigin(0.5, 0.5)
+            // .scale(2);
         requestAnimationFrame(this.update.bind(this));
     }
 
@@ -33,6 +34,6 @@ export default class App {
 
     draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        this.sphere.draw();
+        this.canvas.draw();
     }
 }

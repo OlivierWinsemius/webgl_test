@@ -1,6 +1,6 @@
 import RenderObject from './basicShape';
 
-export default class Rect extends RenderObject {
+export default class Plane extends RenderObject {
     constructor(...rest) {
         super(...rest);
         this.setPositionAttributeData();
