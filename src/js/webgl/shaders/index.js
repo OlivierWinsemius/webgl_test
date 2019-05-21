@@ -4,10 +4,6 @@ const textureVertex = require('../../../shaders/texture/vertex.glsl');
 const textureFragment = require('../../../shaders/texture/fragment.glsl');
 const solidVertex = require('../../../shaders/solid/vertex.glsl');
 const solidFragment = require('../../../shaders/solid/fragment.glsl');
-// import createProgram from './createProgram';
-
-// import SolidShader from './solid/solidShader';
-// import TextureShader from './texture/textureShader';
 
 export default () => ({
     Solid: () => new Shader(
