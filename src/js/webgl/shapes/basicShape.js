@@ -118,13 +118,13 @@ export default class Shape extends ModelMatrix {
         return this;
     }
 
-    setTexture(texture, uniform, coordinates) {
+    setTexture(texture, coordinates) {
         gl.activeTexture(gl[`TEXTURE${this.textureUniformData}`]);
         gl.bindTexture(gl.TEXTURE_2D, texture);
         this.textureUniformData += 1;
         this.textureCoordinates = coordinates || this.getTextureCoordinates();
 
-        if (this.setUniform(uniform)) {
+        if (this.setUniform('sampler')) {
             gl.bufferData(
                 gl.ARRAY_BUFFER,
                 new Float32Array(this.textureCoordinates),
