@@ -14,9 +14,9 @@ export default class Vector {
         const v2 = v.duplicate();
         const { x, y, z } = this.duplicate();
         return (
-            (x * v2.x) +
-            (y * v2.y) +
-            (z * v2.z)
+            (x * v2.x)
+            + (y * v2.y)
+            + (z * v2.z)
         );
     }
 
