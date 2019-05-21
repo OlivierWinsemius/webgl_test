@@ -4,26 +4,13 @@ export default class ProjectionMatrix {
         this.far = 1000;
         this.FoV = Math.PI / 4;
         this.aspect = 16 / 9;
-        this.setupMatrix();
+        this.setupMatrix('ortho');
     }
 
-    setupMatrix() {
-        const {
-            FoV,
-            far,
-            near,
-            aspect,
-        } = this;
-
-        const nf = 1.0 / (far - near);
-
-        // Perspective Matrix
-        this.matrix = new Matrix([
-            FoV / aspect, 0, 0, 0,
-            0, FoV, 0, 0,
-            0, 0, -(far + near) * nf, -1,
-            0, 0, -2 * far * near * nf, 0,
-        ]);
+    setupMatrix(type = 'persp') {
+        this.matrix = type === 'persp'
+            ? new Matrix().persp(this.FoV, this.aspect, this.near, this.far)
+            : new Matrix().ortho(-1, 1, -1, 1, 0.001, 10000);
     }
 
     setFoV(FoV) {

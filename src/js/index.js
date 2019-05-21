@@ -23,7 +23,7 @@ const loaded = ([
     gl.enable(gl.DEPTH_TEST);
     gl.depthFunc(gl.LEQUAL);
     global.Camera = new Camera();
-    global.App = new App();
+    global.App = new App({ type: 'ortho' });
 };
 
 export default function start(callback) {
