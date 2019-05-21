@@ -22,7 +22,7 @@ module.exports = merge(common, {
     plugins: [
         new webpack.NamedModulesPlugin(),
         new webpack.HotModuleReplacementPlugin(),
-        new CleanWebpackPlugin([path.resolve(__dirname, 'dist', 'dev')]),
+        new CleanWebpackPlugin(),
         new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('development') }),
     ],
 });

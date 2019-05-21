@@ -12,7 +12,7 @@ module.exports = merge(common, {
 
     plugins: [
         new UglifyPlugin(),
-        new CleanWebpackPlugin([path.resolve(__dirname, 'dist', 'prod')]),
+        new CleanWebpackPlugin(),
         new webpack.DefinePlugin({ 'process.env.NODE_ENV': JSON.stringify('production') }),
     ],
 });

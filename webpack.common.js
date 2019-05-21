@@ -31,14 +31,14 @@ module.exports = {
             },
             {
                 test: /\.js$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
                 },
             },
             {
                 test: /\.glsl$/,
-                exclude: /(node_modules|bower_components)/,
+                exclude: /node_modules/,
                 loader: 'webpack-glsl-loader',
             },
             {
