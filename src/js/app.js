@@ -1,3 +1,6 @@
+import particleVertShader from '../shaders/custom/particles/vertex.glsl';
+import particleFragShader from '../shaders/custom/particles/fragment.glsl';
+
 export default class App {
     onMouseMove(event) {
         this.mousePos = {
@@ -21,10 +24,23 @@ export default class App {
         // document.addEventListener('keydown', this.onKeyDown.bind(this));
         // document.addEventListener('keyup', this.onKeyUp.bind(this));
         this.canvas = new shapes.Plane()
-            .setOrigin(0.5, 0.5)
-            .setShader(shaders.Texture)
+            // .setShader(shaders.Custom(
+            //     particleVertShader,
+            //     particleFragShader,
+            //     {
+            //         position: 'aVertexPosition',
+            //     },
+            //     {
+            //         color: 'uColor',
+            //         modelView: 'uModelViewMatrix',
+            //         projection: 'uProjectionMatrix',
+            //     },
+            // ))
+            .setShader(shaders.Texture())
             .setTexture(textures.noise)
-            .scale(2);
+            .setOrigin(0.5, 0.5)
+            .setColor(1, 1, 0);
+
         requestAnimationFrame(this.update.bind(this));
     }
 

@@ -33,10 +33,10 @@ export class Shader {
         this.attributes = Object.entries(attributes).reduce((attr, [key, name]) => ({
             ...attr,
             [key]: gl.getAttribLocation(this.program, name),
-        }));
+        }), {});
         this.uniforms = Object.entries(uniforms).reduce((attr, [key, name]) => ({
             ...attr,
             [key]: gl.getUniformLocation(this.program, name),
-        }));
+        }), {});
     }
 }

@@ -68,10 +68,12 @@ export default class Shape extends ModelMatrix {
             const uniformKey = `${uni}UniformData`;
             switch (uni) {
             case 'color':
+                console.log('color', uniform, uniformKey)
                 gl.uniform4fv(uniform, this[uniformKey]);
                 break;
             case 'sampler':
                 for (let i = 0; i < this[uniformKey]; i += 1) {
+                    console.log(uniform)
                     gl.uniform1i(uniform, i);
                 }
                 break;
@@ -111,7 +113,7 @@ export default class Shape extends ModelMatrix {
     }
 
     setShader(shader) {
-        this.shader = shader();
+        this.shader = shader;
         gl.useProgram(this.shader.program);
         this.setAttributes();
         this.setUniforms();
@@ -124,7 +126,7 @@ export default class Shape extends ModelMatrix {
         this.textureUniformData += 1;
         this.textureCoordinates = coordinates || this.getTextureCoordinates();
 
-        if (this.setUniform('sampler')) {
+        if (this.bindAttrib('textureCoord') && this.setUniform('sampler')) {
             gl.bufferData(
                 gl.ARRAY_BUFFER,
                 new Float32Array(this.textureCoordinates),
