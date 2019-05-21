@@ -33,10 +33,16 @@ export class Shader {
         this.attributes = Object.entries(attributes).reduce((attr, [key, name]) => ({
             ...attr,
             [key]: gl.getAttribLocation(this.program, name),
-        }), {});
+        }), {
+            position: gl.getAttribLocation(this.program, 'aVertexPosition'),
+        });
         this.uniforms = Object.entries(uniforms).reduce((attr, [key, name]) => ({
             ...attr,
             [key]: gl.getUniformLocation(this.program, name),
-        }), {});
+        }), {
+            modelView: gl.getUniformLocation(this.program, 'uModelViewMatrix'),
+            projection: gl.getUniformLocation(this.program, 'uProjectionMatrix'),
+        });
+        console.log(this)
     }
 }

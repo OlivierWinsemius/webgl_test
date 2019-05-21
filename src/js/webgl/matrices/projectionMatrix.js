@@ -10,7 +10,7 @@ export default class ProjectionMatrix {
     setupMatrix(type = 'persp') {
         this.matrix = type === 'persp'
             ? new Matrix().persp(this.FoV, this.aspect, this.near, this.far)
-            : new Matrix().ortho(-1, 1, -1, 1, 0.001, 10000);
+            : new Matrix().ortho(-0.5, 0.5, -0.5, 0.5, 0.001, 10000);
     }
 
     setFoV(FoV) {

@@ -114,6 +114,7 @@ export default class Shape extends ModelMatrix {
 
     setShader(shader) {
         this.shader = shader;
+        console.log(this.shader)
         gl.useProgram(this.shader.program);
         this.setAttributes();
         this.setUniforms();

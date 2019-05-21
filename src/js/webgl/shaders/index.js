@@ -9,27 +9,14 @@ export default () => ({
     Solid: () => new Shader(
         solidVertex,
         solidFragment,
-        {
-            position: 'aVertexPosition',
-        },
-        {
-            color: 'uColor',
-            modelView: 'uModelViewMatrix',
-            projection: 'uProjectionMatrix',
-        },
+        {},
+        { color: 'uColor' },
     ),
     Texture: () => new Shader(
         textureVertex,
         textureFragment,
-        {
-            position: 'aVertexPosition',
-            textureCoord: 'aTextureCoord',
-        },
-        {
-            sampler: 'uSampler',
-            modelView: 'uModelViewMatrix',
-            projection: 'uProjectionMatrix',
-        },
+        { textureCoord: 'aTextureCoord' },
+        { sampler: 'uSampler' },
     ),
     Custom: (
         vertex,

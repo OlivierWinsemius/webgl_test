@@ -24,23 +24,14 @@ export default class App {
         // document.addEventListener('keydown', this.onKeyDown.bind(this));
         // document.addEventListener('keyup', this.onKeyUp.bind(this));
         this.canvas = new shapes.Plane()
-            // .setShader(shaders.Custom(
-            //     particleVertShader,
-            //     particleFragShader,
-            //     {
-            //         position: 'aVertexPosition',
-            //     },
-            //     {
-            //         color: 'uColor',
-            //         modelView: 'uModelViewMatrix',
-            //         projection: 'uProjectionMatrix',
-            //     },
-            // ))
-            .setShader(shaders.Texture())
+            .setShader(shaders.Custom(
+                particleVertShader,
+                particleFragShader,
+                {},
+                { color: 'uColor' },
+            ))
             .setTexture(textures.noise)
-            .setOrigin(0.5, 0.5)
-            .setColor(1, 1, 0);
-
+            .setOrigin(0.5, 0.5);
         requestAnimationFrame(this.update.bind(this));
     }
 
