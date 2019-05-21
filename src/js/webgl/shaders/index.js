@@ -35,4 +35,15 @@ export default () => ({
             projection: 'uProjectionMatrix',
         },
     ),
+    Custom: (
+        vertex,
+        fragment,
+        attributes,
+        uniforms,
+    ) => new Shader(
+        vertex,
+        fragment,
+        attributes,
+        uniforms,
+    ),
 });
