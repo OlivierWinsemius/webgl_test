@@ -31,28 +31,8 @@ export default class Matrix {
         return this;
     }
 
-    persp(FoV, aspect, zNear, zFar) {
-        const f = 1.0 / Math.tan(FoV);
-        const nf = 1.0 / (zFar - zNear);
-        return this.multiply(new Matrix([
-            f / aspect, 0, 0, 0,
-            0, f, 0, 0,
-            0, 0, -(zFar + zNear) * nf, -1,
-            0, 0, -2 * zFar * zNear * nf, 0,
-        ]));
-    }
-
-    ortho(l, r, b, t, n, f) {
-        return this.multiply(new Matrix([
-            2 / (r - l), 0, 0, 0,
-            0, 2 / (t - b), 0, 0,
-            0, 0, -2 / (f - n), 0,
-            -(r + l) / (r - l), -(t + b) / (t - b), -(f + n) / (f - n), 1,
-        ]));
-    }
-
     lookAt(eye, target, up) {
-        const z = eye.sub(target).normal;
+        const z = eye.duplicate().sub(target).normal;
         const x = up.cross(z).normal;
         const y = z.cross(x).normal;
 
