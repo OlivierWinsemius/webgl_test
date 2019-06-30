@@ -9,7 +9,7 @@ const loaded = ([
     { default: App },
     { default: Vector },
     { default: Matrix },
-]) => {
+]: any[]) => {
     const canvas = document.getElementById('canvas');
     // @ts-ignore
     global.Vector = Vector;
@@ -39,8 +39,7 @@ const loaded = ([
     global.App = new App({ type: 'ortho' });
 };
 
-// @ts-ignore
-export default function start(callback) {
+export default function start() {
     return Promise.all([
         import('./webgl/shaders/index.js'),
         import('./webgl/shapes/index.js'),
@@ -50,13 +49,11 @@ export default function start(callback) {
         import('./App.js'),
         import('./utils/vector'),
         import('./utils/matrix'),
-    ]).then(callback);
+    ]).then(loaded);
 }
 
-start(loaded);
+start();
 
-// @ts-ignore
 if (module.hot) {
-    // @ts-ignore
     module.hot.accept();
 }
