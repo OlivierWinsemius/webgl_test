@@ -43,6 +43,5 @@ export class Shader {
             modelView: gl.getUniformLocation(this.program, 'uModelViewMatrix'),
             projection: gl.getUniformLocation(this.program, 'uProjectionMatrix'),
         });
-        console.log(this)
     }
 }

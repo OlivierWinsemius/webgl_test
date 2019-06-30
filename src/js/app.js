@@ -28,8 +28,9 @@ export default class App {
                 particleVertShader,
                 particleFragShader,
                 {},
-                { color: 'uColor' },
+                { sampler: 'uSampler' },
             ))
+            // .setShader(shaders.Texture())
             .setTexture(textures.noise)
             .setOrigin(0.5, 0.5);
         requestAnimationFrame(this.update.bind(this));
