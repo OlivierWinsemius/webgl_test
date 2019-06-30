@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     entry: {
-        index: path.resolve(__dirname, 'src', 'js', 'index.js'),
+        index: path.resolve(__dirname, 'src', 'js', 'index.ts'),
     },
 
     output: {
@@ -12,6 +12,7 @@ module.exports = {
     },
 
     resolve: {
+        extensions: ['.ts', '.js'],
         alias: {
             images: path.resolve(__dirname, 'src', 'images'),
         },
@@ -30,11 +31,13 @@ module.exports = {
                 }],
             },
             {
-                test: /\.js$/,
+                test: /\.ts$|\.js$/,
                 exclude: /node_modules/,
-                use: {
+                use: [{
                     loader: 'babel-loader',
-                },
+                }, {
+                    loader: 'ts-loader'
+                }]
             },
             {
                 test: /\.glsl$/,

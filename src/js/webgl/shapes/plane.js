@@ -17,7 +17,7 @@ export default class Plane extends RenderObject {
 
     getVertexCoordinates() {
         const { x, y } = this.origin;
-        const { width: w, height: h} = this;
+        const { width: w, height: h } = this;
         return [
             x + w, -y - h, 0.0,
             x, -y - h, 0.0,
